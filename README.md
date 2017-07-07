@@ -1,2 +1,2 @@
-# adaptive-grid--preact
-Adaptive Grid for Preact
+# Adaptive Grid for Preact
+Adaptive Grid Component for Preact
