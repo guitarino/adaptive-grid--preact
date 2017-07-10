@@ -7,7 +7,7 @@ export default class App extends preact.Component {
   render() {
     return (
       <div class='App'>
-          <AdaptiveGrid />
+        <AdaptiveGrid />
       </div>
     );
   }
