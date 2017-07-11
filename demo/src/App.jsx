@@ -16,29 +16,29 @@ export default class App extends preact.Component {
   render() {
     return (
       <div class='App'>
-        <AdaptiveGrid baseWidth={150} baseHeight={150}>
-          <AdaptiveGridItem minHeight={300}>
+        <AdaptiveGrid baseWidth={150} baseHeight={100}>
+          <AdaptiveGridItem minHeight={200}>
             <Card>One</Card>
           </AdaptiveGridItem>
-          <AdaptiveGridItem minWidth={300} minHeight={300}>
+          <AdaptiveGridItem minWidth={300} minHeight={200}>
             <Card>Two</Card>
           </AdaptiveGridItem>
           <AdaptiveGridItem minWidth={300}>
             <Card>Three</Card>
           </AdaptiveGridItem>
-          <AdaptiveGridItem minWidth={300} minHeight={300}>
+          <AdaptiveGridItem minWidth={300} minHeight={200}>
             <Card>Four</Card>
           </AdaptiveGridItem>
-          <AdaptiveGridItem minWidth={300} minHeight={300}>
+          <AdaptiveGridItem minWidth={300} minHeight={200}>
             <Card>Five</Card>
           </AdaptiveGridItem>
           <AdaptiveGridItem>
             <Card>Six</Card>
           </AdaptiveGridItem>
-          <AdaptiveGridItem minWidth={300} minHeight={300}>
+          <AdaptiveGridItem minWidth={300} minHeight={200}>
             <Card>Seven</Card>
           </AdaptiveGridItem>
-          <AdaptiveGridItem minHeight={300}>
+          <AdaptiveGridItem minHeight={200}>
             <Card>Eight</Card>
           </AdaptiveGridItem>
           <AdaptiveGridItem minWidth={300}>
