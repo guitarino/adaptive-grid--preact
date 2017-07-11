@@ -110,12 +110,13 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
       return this.state.width > 0 && this.props.baseWidth > 0 && this.props.baseHeight > 0;
     }
 
-    // if calculation can happen without error, returns true
+    // also account for max columns
 
   }, {
     key: 'getTotalColumns',
     value: function getTotalColumns() {
-      return Math.floor(this.state.width / this.props.baseWidth);
+      var maxColumns = this.props.maxColumns ? this.props.maxColumns : Infinity;
+      return Math.min(maxColumns, Math.floor(this.state.width / this.props.baseWidth));
     }
   }, {
     key: 'getColWidth',

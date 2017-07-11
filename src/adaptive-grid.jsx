@@ -77,9 +77,10 @@ export class AdaptiveGrid extends preact.Component {
     );
   }
 
-  // if calculation can happen without error, returns true
+  // also account for max columns
   getTotalColumns() {
-    return Math.floor(this.state.width / this.props.baseWidth);
+    let maxColumns = this.props.maxColumns ? this.props.maxColumns : Infinity;
+    return Math.min(maxColumns, Math.floor(this.state.width / this.props.baseWidth));
   }
 
   getColWidth(totalColumns) {
