@@ -3,11 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.AdaptiveGrid = exports.AdaptiveGridItem = undefined;
+exports.AdaptiveGrid = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+exports.AdaptiveGridItem = AdaptiveGridItem;
 
 var _preact = require('preact');
 
@@ -16,8 +18,6 @@ var _preact2 = _interopRequireDefault(_preact);
 var _resizeSensorPreact = require('resize-sensor--preact');
 
 var _resizeSensorPreact2 = _interopRequireDefault(_resizeSensorPreact);
-
-require('./adaptive-grid.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31,30 +31,203 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * @see https://github.com/guitarino/adaptive-grid--preact/
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var AdaptiveGridItem = exports.AdaptiveGridItem = function (_preact$Component) {
-  _inherits(AdaptiveGridItem, _preact$Component);
+function AdaptiveGridItem(props) {
+  return _preact2.default.h(
+    'div',
+    { 'class': 'AdaptiveGridItem', style: props.childStyle },
+    props.children
+  );
+};
 
-  function AdaptiveGridItem() {
-    _classCallCheck(this, AdaptiveGridItem);
+var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
+  _inherits(AdaptiveGrid, _preact$Component);
 
-    return _possibleConstructorReturn(this, (AdaptiveGridItem.__proto__ || Object.getPrototypeOf(AdaptiveGridItem)).apply(this, arguments));
+  function AdaptiveGrid() {
+    _classCallCheck(this, AdaptiveGrid);
+
+    var _this = _possibleConstructorReturn(this, (AdaptiveGrid.__proto__ || Object.getPrototypeOf(AdaptiveGrid)).call(this));
+
+    _this.state = { width: 0 };
+    _this.onResize = _this.onResize.bind(_this);
+    return _this;
   }
 
-  _createClass(AdaptiveGridItem, [{
+  _createClass(AdaptiveGrid, [{
     key: 'render',
     value: function render() {
+      var children = this.getFilteredChildren();
+      var gridStyle = { overflow: 'visible' };
+      if (this.canCalculate()) {
+        var totalColumns = this.getTotalColumns();
+        var colWidth = this.getColWidth(totalColumns);
+        var sizes = this.getItemSizes(children, totalColumns);
+        var coords = this.getItemCoordinates(children, sizes, totalColumns);
+        this.applyItemStyles(children, colWidth, sizes, coords);
+        gridStyle.height = this.getGridMaxHeight(children, sizes, coords) + 'px';
+      } else {
+        gridStyle.visibility = 'hidden';
+        if (!(this.props.baseWidth > 0 && this.props.baseHeight > 0)) {
+          console.error('Base width and base height should be provided and be positive');
+        }
+      }
       return _preact2.default.h(
         'div',
-        { 'class': 'AdaptiveGridItem', style: this.props.childStyle },
-        this.props.children
+        { 'class': 'AdaptiveGrid', style: gridStyle },
+        _preact2.default.h(_resizeSensorPreact2.default, { onResize: this.onResize }),
+        children
       );
+    }
+
+    // callback from resize-sensor
+
+  }, {
+    key: 'onResize',
+    value: function onResize(width) {
+      if (this.state.width !== width) {
+        this.setState({ width: width });
+      }
+    }
+
+    // this is to ignore children that are not AdaptiveGridItem
+
+  }, {
+    key: 'getFilteredChildren',
+    value: function getFilteredChildren() {
+      var children = [];
+      this.props.children.forEach(function (child) {
+        if (child.nodeName === AdaptiveGridItem) {
+          children.push(child);
+        }
+      });
+      return children;
+    }
+
+    // if calculation can happen without error, returns true
+
+  }, {
+    key: 'canCalculate',
+    value: function canCalculate() {
+      return this.state.width > 0 && this.props.baseWidth > 0 && this.props.baseHeight > 0;
+    }
+
+    // if calculation can happen without error, returns true
+
+  }, {
+    key: 'getTotalColumns',
+    value: function getTotalColumns() {
+      return Math.floor(this.state.width / this.props.baseWidth);
+    }
+  }, {
+    key: 'getColWidth',
+    value: function getColWidth(totalColumns) {
+      return this.state.width / totalColumns;
+    }
+  }, {
+    key: 'getItemSizes',
+    value: function getItemSizes(children, totalColumns) {
+      var _this2 = this;
+
+      return children.map(function (child) {
+        var width = _this2.props.baseWidth;
+        var height = _this2.props.baseHeight;
+        if (child.attributes) {
+          if (child.attributes.minWidth) {
+            width = child.attributes.minWidth;
+          }
+          if (child.attributes.minHeight) {
+            height = child.attributes.minHeight;
+          }
+        }
+        return [Math.min(totalColumns, Math.ceil(width / _this2.props.baseWidth)), Math.ceil(height / _this2.props.baseHeight)];
+      });
+    }
+  }, {
+    key: 'getItemCoordinates',
+    value: function getItemCoordinates(children, sizes, totalColumns) {
+      var remainingElements = [].slice.call(children);
+      // remainingElementsIds is in sync with remainingElements so that
+      // we don't have to search for indeces every time
+      var remainingElementsIds = Object.keys(children);
+      var coords = [];
+      var row = 0;
+      var boundaries = []; // array for boundaries of current grid items
+      // filling up the grid and removing remainingElements until none left
+      while (remainingElements.length) {
+        for (var col = 0; col < totalColumns; col++) {
+          for (var elId = 0; elId < remainingElements.length; elId++) {
+            var childId = remainingElementsIds[elId];
+
+            var _sizes$childId = _slicedToArray(sizes[childId], 2),
+                cols = _sizes$childId[0],
+                rows = _sizes$childId[1];
+            // if not exceeding the boundary
+
+
+            if (col + cols <= totalColumns) {
+              // and if other items are not in the way
+              if (!isFilled(col, row, col + cols, row + rows, boundaries)) {
+                // then the current item can claim those coordinates
+                coords[childId] = [col, row];
+                // and, don't forget to update the filled space
+                doFill(col, row, col + cols, row + rows, boundaries);
+                // now, there's 1 less item remaining
+                remainingElements.splice(elId, 1);
+                remainingElementsIds.splice(elId, 1);
+                elId--; // since we removed an element, we gotta go back by 1 id
+                break;
+              }
+            }
+          }
+        }
+        row++;
+      }
+      return coords;
+    }
+  }, {
+    key: 'applyItemStyles',
+    value: function applyItemStyles(children, colWidth, sizes, coords) {
+      var _this3 = this;
+
+      children.forEach(function (child, i) {
+        if (!child.attributes) {
+          child.attributes = {};
+        }
+        child.attributes.childStyle = {
+          position: 'absolute',
+          left: coords[i][0] * colWidth + 'px',
+          top: coords[i][1] * _this3.props.baseHeight + 'px',
+          width: sizes[i][0] * colWidth + 'px',
+          height: sizes[i][1] * _this3.props.baseHeight + 'px'
+        };
+      });
+    }
+  }, {
+    key: 'getGridMaxHeight',
+    value: function getGridMaxHeight(children, sizes, coords) {
+      var maxRow = 0;
+      children.forEach(function (child, i) {
+        var _coords$i = _slicedToArray(coords[i], 2),
+            col = _coords$i[0],
+            row = _coords$i[1];
+
+        var _sizes$i = _slicedToArray(sizes[i], 2),
+            cols = _sizes$i[0],
+            rows = _sizes$i[1];
+
+        if (row + rows > maxRow) {
+          maxRow = row + rows;
+        }
+      });
+      return maxRow * this.props.baseHeight;
     }
   }]);
 
-  return AdaptiveGridItem;
+  return AdaptiveGrid;
 }(_preact2.default.Component);
 
-;
+// checks if the provided coordinates and sizes for an item
+// will overlap with currently placed items
+
 
 function isFilled(colStart, rowStart, colEnd, rowEnd, arr) {
   var isFilled = false;
@@ -73,111 +246,8 @@ function isFilled(colStart, rowStart, colEnd, rowEnd, arr) {
   return isFilled;
 }
 
+// adds provided coordinates and sizes as a currently placed item
 function doFill(colStart, rowStart, colEnd, rowEnd, arr) {
   arr.push([colStart, rowStart, colEnd, rowEnd]);
 }
-
-var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component2) {
-  _inherits(AdaptiveGrid, _preact$Component2);
-
-  function AdaptiveGrid() {
-    _classCallCheck(this, AdaptiveGrid);
-
-    var _this2 = _possibleConstructorReturn(this, (AdaptiveGrid.__proto__ || Object.getPrototypeOf(AdaptiveGrid)).call(this));
-
-    _this2.onResize = _this2.onResize.bind(_this2);
-    _this2.state = { width: 0 };
-    return _this2;
-  }
-
-  _createClass(AdaptiveGrid, [{
-    key: 'onResize',
-    value: function onResize(width) {
-      this.setState({ width: width });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var availableWidth = this.state.width;
-      var children = [];
-      this.props.children.forEach(function (child) {
-        if (child.nodeName === AdaptiveGridItem) {
-          children.push(child);
-        }
-      });
-      var gridStyle = { overflow: 'visible' };
-      var maxHeight = 0;
-      if (availableWidth > 0) {
-        var baseWidth = this.props.baseWidth;
-        var baseHeight = this.props.baseHeight;
-        var totalColumns = Math.floor(availableWidth / baseWidth);
-        var colWidth = availableWidth / totalColumns;
-        var childrenSizes = children.map(function (child) {
-          var width = baseWidth;
-          var height = baseHeight;
-          if (child.attributes) {
-            if (child.attributes.minWidth) {
-              width = child.attributes.minWidth;
-            }
-            if (child.attributes.minHeight) {
-              height = child.attributes.minHeight;
-            }
-          }
-          return {
-            cols: Math.min(totalColumns, Math.ceil(width / baseWidth)),
-            rows: Math.ceil(height / baseHeight)
-          };
-        });
-        var remainingElements = [].slice.call(children);
-        var remainingElementsIds = Object.keys(children);
-        var childrenCoords = [];
-        var row = 0;
-        var boundaries = [];
-        while (remainingElements.length) {
-          for (var col = 0; col < totalColumns; col++) {
-            for (var elId = 0; elId < remainingElements.length; elId++) {
-              var childId = remainingElementsIds[elId];
-              var cols = childrenSizes[childId].cols;
-              var rows = childrenSizes[childId].rows;
-              if (col + cols <= totalColumns) {
-                if (!isFilled(col, row, col + cols, row + rows, boundaries)) {
-                  remainingElements.splice(elId, 1);
-                  remainingElementsIds.splice(elId, 1);
-                  elId--;
-                  childrenCoords[childId] = [col, row];
-                  doFill(col, row, col + cols, row + rows, boundaries);
-                  break;
-                }
-              }
-            }
-          }
-          row++;
-        }
-        children.forEach(function (child, i) {
-          if (!child.attributes) {
-            child.attributes = {};
-          }
-          child.attributes.childStyle = {
-            position: 'absolute',
-            left: childrenCoords[i][0] * colWidth + 'px',
-            top: childrenCoords[i][1] * baseHeight + 'px',
-            width: childrenSizes[i].cols * colWidth + 'px',
-            height: childrenSizes[i].rows * baseHeight + 'px'
-          };
-          var edge = (childrenCoords[i][1] + childrenSizes[i].rows) * baseHeight;
-          if (edge > maxHeight) maxHeight = edge;
-        });
-        gridStyle.height = maxHeight;
-      }
-      return _preact2.default.h(
-        'div',
-        { 'class': 'AdaptiveGrid', style: gridStyle },
-        _preact2.default.h(_resizeSensorPreact2.default, { onResize: this.onResize }),
-        children
-      );
-    }
-  }]);
-
-  return AdaptiveGrid;
-}(_preact2.default.Component);
 //# sourceMappingURL=adaptive-grid.js.map

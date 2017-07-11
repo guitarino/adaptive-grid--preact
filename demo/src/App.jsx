@@ -18,10 +18,7 @@ export default class App extends preact.Component {
   render() {
     return (
       <div class='App'>
-        <AdaptiveGrid
-          baseWidth={150}
-          baseHeight={150}
-        >
+        <AdaptiveGrid baseWidth={150} baseHeight={150}>
           <AdaptiveGridItem minHeight={300}>
             <Card>One</Card>
           </AdaptiveGridItem>

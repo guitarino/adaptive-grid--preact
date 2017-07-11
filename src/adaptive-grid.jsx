@@ -7,18 +7,170 @@
 import preact from 'preact';
 import ResizeSensor from 'resize-sensor--preact';
 
-import './adaptive-grid.css';
-
-export class AdaptiveGridItem extends preact.Component {
-  render() {
-    return (
-      <div class="AdaptiveGridItem" style={this.props.childStyle}>
-        {this.props.children}
-      </div>
-    )
-  }
+export function AdaptiveGridItem(props) {
+  return (
+    <div class="AdaptiveGridItem" style={props.childStyle}>
+      {props.children}
+    </div>
+  )
 };
 
+export class AdaptiveGrid extends preact.Component {
+  constructor() {
+    super();
+    this.state = { width: 0 };
+    this.onResize = this.onResize.bind(this);
+  }
+
+  render() {
+    var children = this.getFilteredChildren();
+    var gridStyle = { overflow: 'visible' };
+    if (this.canCalculate()) {
+      var totalColumns = this.getTotalColumns();
+      var colWidth = this.getColWidth(totalColumns);
+      var sizes = this.getItemSizes(children, totalColumns);
+      var coords = this.getItemCoordinates(children, sizes, totalColumns);
+      this.applyItemStyles(children, colWidth, sizes, coords);
+      gridStyle.height = this.getGridMaxHeight(children, sizes, coords) + 'px';
+    }
+    else {
+      gridStyle.visibility = 'hidden';
+      if (!(
+        this.props.baseWidth > 0 &&
+        this.props.baseHeight > 0
+      )) {
+        console.error('Base width and base height should be provided and be positive');
+      }
+    }
+    return (
+      <div class='AdaptiveGrid' style={ gridStyle }>
+        <ResizeSensor onResize={ this.onResize } />
+        { children }
+      </div>
+    );
+  }
+  
+  // callback from resize-sensor
+  onResize(width) {
+    if (this.state.width !== width) {
+      this.setState({width: width});
+    }
+  }
+
+  // this is to ignore children that are not AdaptiveGridItem
+  getFilteredChildren() {
+    var children = [];
+    this.props.children.forEach((child) => {
+      if(child.nodeName === AdaptiveGridItem) {
+        children.push(child);
+      }
+    });
+    return children;
+  }
+
+  // if calculation can happen without error, returns true
+  canCalculate() {
+    return (
+      this.state.width > 0 &&
+      this.props.baseWidth > 0 &&
+      this.props.baseHeight > 0
+    );
+  }
+
+  // if calculation can happen without error, returns true
+  getTotalColumns() {
+    return Math.floor(this.state.width / this.props.baseWidth);
+  }
+
+  getColWidth(totalColumns) {
+    return this.state.width / totalColumns;
+  }
+
+  getItemSizes(children, totalColumns) {
+    return children.map((child) => {
+      var width = this.props.baseWidth;
+      var height = this.props.baseHeight;
+      if(child.attributes) {
+        if(child.attributes.minWidth) {
+          width = child.attributes.minWidth;
+        }
+        if(child.attributes.minHeight) {
+          height = child.attributes.minHeight;
+        }
+      }
+      return [
+        Math.min(totalColumns, Math.ceil(width / this.props.baseWidth)),
+        Math.ceil(height / this.props.baseHeight)
+      ];
+    });
+  }
+
+  getItemCoordinates(children, sizes, totalColumns) {
+    var remainingElements = [].slice.call(children);
+    // remainingElementsIds is in sync with remainingElements so that
+    // we don't have to search for indeces every time
+    var remainingElementsIds = Object.keys(children);
+    var coords = [];
+    var row = 0;
+    var boundaries = []; // array for boundaries of current grid items
+    // filling up the grid and removing remainingElements until none left
+    while(remainingElements.length) {
+      for(var col = 0; col < totalColumns; col++) {
+        for(var elId = 0; elId < remainingElements.length; elId++) {
+          var childId = remainingElementsIds[elId];
+          var [cols, rows] = sizes[childId];
+          // if not exceeding the boundary
+          if(col + cols <= totalColumns) {
+            // and if other items are not in the way
+            if(!isFilled(col, row, col + cols, row + rows, boundaries)) {
+              // then the current item can claim those coordinates
+              coords[childId] = [col, row];
+              // and, don't forget to update the filled space
+              doFill(col, row, col + cols, row + rows, boundaries);
+              // now, there's 1 less item remaining
+              remainingElements.splice(elId, 1);
+              remainingElementsIds.splice(elId, 1);
+              elId--; // since we removed an element, we gotta go back by 1 id
+              break;
+            }
+          }
+        }
+      }
+      row++;
+    }
+    return coords;
+  }
+
+  applyItemStyles(children, colWidth, sizes, coords) {
+    children.forEach((child, i) => {
+      if (!child.attributes) {
+        child.attributes = {};
+      }
+      child.attributes.childStyle = {
+        position: 'absolute',
+        left: coords[i][0] * colWidth + 'px',
+        top: coords[i][1] * this.props.baseHeight + 'px',
+        width: sizes[i][0] * colWidth + 'px',
+        height: sizes[i][1] * this.props.baseHeight + 'px'
+      };
+    });
+  }
+
+  getGridMaxHeight(children, sizes, coords) {
+    var maxRow = 0;
+    children.forEach((child, i) => {
+      var [col, row] = coords[i];
+      var [cols, rows] = sizes[i];
+      if (row + rows > maxRow) {
+        maxRow = row + rows;
+      }
+    });
+    return maxRow * this.props.baseHeight;
+  }
+}
+
+// checks if the provided coordinates and sizes for an item
+// will overlap with currently placed items
 function isFilled(colStart, rowStart, colEnd, rowEnd, arr) {
   var isFilled = false;
   arr.forEach((borders) => {
@@ -32,98 +184,7 @@ function isFilled(colStart, rowStart, colEnd, rowEnd, arr) {
   return isFilled;
 }
 
+// adds provided coordinates and sizes as a currently placed item
 function doFill(colStart, rowStart, colEnd, rowEnd, arr) {
   arr.push([colStart, rowStart, colEnd, rowEnd]);
-}
-
-export class AdaptiveGrid extends preact.Component {
-  constructor() {
-    super();
-    this.onResize = this.onResize.bind(this);
-    this.state = {width: 0};
-  }
-  
-  onResize(width) {
-    this.setState({width: width});
-  }
-
-  render() {
-    var availableWidth = this.state.width;
-    var children = [];
-    this.props.children.forEach((child) => {
-      if(child.nodeName === AdaptiveGridItem) {
-        children.push(child);
-      }
-    });
-    var gridStyle = { overflow: 'visible' };
-    var maxHeight = 0;
-    if (availableWidth > 0) {
-      var baseWidth = this.props.baseWidth;
-      var baseHeight = this.props.baseHeight;
-      var totalColumns = Math.floor(availableWidth / baseWidth);
-      var colWidth = availableWidth / totalColumns;
-      var childrenSizes = children.map((child) => {
-        var width = baseWidth;
-        var height = baseHeight;
-        if(child.attributes) {
-          if(child.attributes.minWidth) {
-            width = child.attributes.minWidth;
-          }
-          if(child.attributes.minHeight) {
-            height = child.attributes.minHeight;
-          }
-        }
-        return {
-          cols: Math.min(totalColumns, Math.ceil(width / baseWidth)),
-          rows: Math.ceil(height / baseHeight)
-        };
-      });
-      var remainingElements = [].slice.call(children);
-      var remainingElementsIds = Object.keys(children);
-      var childrenCoords = [];
-      var row = 0;
-      var boundaries = [];
-      while(remainingElements.length) {
-        for(var col = 0; col < totalColumns; col++) {
-          for(var elId = 0; elId < remainingElements.length; elId++) {
-            var childId = remainingElementsIds[elId];
-            var cols = childrenSizes[childId].cols;
-            var rows = childrenSizes[childId].rows;
-            if(col + cols <= totalColumns) {
-              if(!isFilled(col, row, col + cols, row + rows, boundaries)) {
-                remainingElements.splice(elId, 1);
-                remainingElementsIds.splice(elId, 1);
-                elId--;
-                childrenCoords[childId] = [col, row];
-                doFill(col, row, col + cols, row + rows, boundaries);
-                break;
-              }
-            }
-          }
-        }
-        row++;
-      }
-      children.forEach((child, i) => {
-        if (!child.attributes) {
-          child.attributes = {};
-        }
-        child.attributes.childStyle = {
-          position: 'absolute',
-          left: childrenCoords[i][0] * colWidth + 'px',
-          top: childrenCoords[i][1] * baseHeight + 'px',
-          width: childrenSizes[i].cols * colWidth + 'px',
-          height: childrenSizes[i].rows * baseHeight + 'px'
-        };
-        var edge = (childrenCoords[i][1] + childrenSizes[i].rows) * baseHeight;
-        if (edge > maxHeight) maxHeight = edge;
-      });
-      gridStyle.height = maxHeight;
-    }
-    return (
-      <div class='AdaptiveGrid' style={ gridStyle }>
-        <ResizeSensor onResize={ this.onResize } />
-        { children }
-      </div>
-    );
-  }
 }
