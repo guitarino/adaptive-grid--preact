@@ -1,3 +1,13 @@
 .AdaptiveGrid {
-  color: red;
+  box-sizing: border-box;
+  display: block;
+  width: 80%;
+  position: relative;
+  border: 1px solid black;
+  overflow: visible;
+}
+
+.AdaptiveGridItem {
+  box-sizing: border-box;
+  border: 1px solid black;
 }
