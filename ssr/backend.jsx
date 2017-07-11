@@ -1,9 +1,9 @@
-import AdaptiveGrid from '../src/adaptive-grid';
+import App from '../demo/src/App';
 import * as preact from 'preact';
 import render from 'preact-render-to-string';
 
 const html = render(
-  <AdaptiveGrid />
+  <App />
 );
 
 console.log(

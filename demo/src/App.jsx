@@ -1,8 +1,6 @@
 import preact from 'preact';
 import { AdaptiveGrid, AdaptiveGridItem } from '../../build/adaptive-grid';
 
-import './App.css';
-
 let Card = (props) => (
   <div class="Card">
     <div class="Card__container">

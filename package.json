@@ -6,12 +6,10 @@
   "scripts": {
     "demo-server": "single-page-server -p=8080 -b=demo -f=demo/index.html",
     "demo-webpack": "webpack",
-    "postcss": "postcss src/*.css --use autoprefixer -d build/",
-    "postcss-watch": "postcss src/*.css --use autoprefixer -d build/ --watch",
     "babel": "babel ./src --out-dir ./build --source-maps",
     "babel-watch": "babel ./src --watch --out-dir ./build --source-maps",
-    "build-release": "npm run postcss && npm run babel",
-    "build": "concurrently --kill-others \"npm run postcss-watch\" \"npm run babel-watch\"",
+    "build-release": "npm run babel",
+    "build": "npm run babel-watch",
     "try-ssr": "node ssr/index.js"
   },
   "keywords": [
@@ -37,7 +35,7 @@
     "preact": "^8.1.0",
     "preact-render-to-string": "^3.6.3",
     "raw-loader": "^0.5.1",
-    "resize-sensor--preact": "^1.0.1",
+    "resize-sensor--preact": "^1.0.2",
     "single-page-server": "^0.1.1",
     "source-map-loader": "^0.2.1",
     "style-loader": "^0.18.2",
@@ -45,6 +43,6 @@
   },
   "peerDependencies": {
     "preact": "^8.1.0",
-    "resize-sensor--preact": "^1.0.1"
+    "resize-sensor--preact": "^1.0.2"
   }
 }
