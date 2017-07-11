@@ -1,6 +1,6 @@
 {
   "name": "adaptive-grid--preact",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Adaptive Grid for Preact",
   "main": "./build/adaptive-grid.js",
   "scripts": {
