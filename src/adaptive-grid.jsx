@@ -12,7 +12,9 @@ import './adaptive-grid.css';
 export class AdaptiveGridItem extends preact.Component {
   render() {
     return (
-      <div class="AdaptiveGridItem" style={this.props.style}>Hello there</div>
+      <div class="AdaptiveGridItem" style={this.props.childStyle}>
+        {this.props.children}
+      </div>
     )
   }
 };
@@ -20,10 +22,7 @@ export class AdaptiveGridItem extends preact.Component {
 function isFilled(colStart, rowStart, colEnd, rowEnd, arr) {
   var isFilled = false;
   arr.forEach((borders) => {
-    var colStart2 = borders[0];
-    var rowStart2 = borders[1];
-    var colEnd2 = borders[2];
-    var rowEnd2 = borders[3];
+    var [colStart2, rowStart2, colEnd2, rowEnd2] = borders;
     if (colStart < colEnd2 && colEnd > colStart2 &&
       rowEnd2 > rowStart && rowStart2 < rowEnd ) {
       isFilled = true;
@@ -43,19 +42,27 @@ export class AdaptiveGrid extends preact.Component {
     this.onResize = this.onResize.bind(this);
     this.state = {width: 0};
   }
+  
   onResize(width) {
     this.setState({width: width});
   }
+
   render() {
     var availableWidth = this.state.width;
-    console.log(availableWidth);
+    var children = [];
+    this.props.children.forEach((child) => {
+      if(child.nodeName === AdaptiveGridItem) {
+        children.push(child);
+      }
+    });
+    var gridStyle = { overflow: 'visible' };
     var maxHeight = 0;
     if (availableWidth > 0) {
       var baseWidth = this.props.baseWidth;
       var baseHeight = this.props.baseHeight;
       var totalColumns = Math.floor(availableWidth / baseWidth);
       var colWidth = availableWidth / totalColumns;
-      var childrenInfo = this.props.children.map((child) => {
+      var childrenSizes = children.map((child) => {
         var width = baseWidth;
         var height = baseHeight;
         if(child.attributes) {
@@ -67,12 +74,12 @@ export class AdaptiveGrid extends preact.Component {
           }
         }
         return {
-          cols: Math.ceil(width / baseWidth),
+          cols: Math.min(totalColumns, Math.ceil(width / baseWidth)),
           rows: Math.ceil(height / baseHeight)
         };
       });
-      var remainingElements = [].slice.call(this.props.children);
-      var remainingElementsIds = Object.keys(this.props.children);
+      var remainingElements = [].slice.call(children);
+      var remainingElementsIds = Object.keys(children);
       var childrenCoords = [];
       var row = 0;
       var boundaries = [];
@@ -80,8 +87,8 @@ export class AdaptiveGrid extends preact.Component {
         for(var col = 0; col < totalColumns; col++) {
           for(var elId = 0; elId < remainingElements.length; elId++) {
             var childId = remainingElementsIds[elId];
-            var cols = childrenInfo[childId].cols;
-            var rows = childrenInfo[childId].rows;
+            var cols = childrenSizes[childId].cols;
+            var rows = childrenSizes[childId].rows;
             if(col + cols <= totalColumns) {
               if(!isFilled(col, row, col + cols, row + rows, boundaries)) {
                 remainingElements.splice(elId, 1);
@@ -96,28 +103,26 @@ export class AdaptiveGrid extends preact.Component {
         }
         row++;
       }
-      this.props.children.forEach((child, i) => {
+      children.forEach((child, i) => {
         if (!child.attributes) {
           child.attributes = {};
         }
-        child.attributes.style = {
+        child.attributes.childStyle = {
           position: 'absolute',
           left: childrenCoords[i][0] * colWidth + 'px',
           top: childrenCoords[i][1] * baseHeight + 'px',
-          width: childrenInfo[i].cols * colWidth + 'px',
-          height: childrenInfo[i].rows * baseHeight + 'px'
+          width: childrenSizes[i].cols * colWidth + 'px',
+          height: childrenSizes[i].rows * baseHeight + 'px'
         };
-        var edge = (childrenCoords[i][1] + childrenInfo[i].rows) * baseHeight;
+        var edge = (childrenCoords[i][1] + childrenSizes[i].rows) * baseHeight;
         if (edge > maxHeight) maxHeight = edge;
-        // console.log(child.attributes);
       });
+      gridStyle.height = maxHeight;
     }
     return (
-      <div class='AdaptiveGrid' style={{height: maxHeight}}>
-        <ResizeSensor
-          onResize={this.onResize}
-        />
-        {this.props.children}
+      <div class='AdaptiveGrid' style={ gridStyle }>
+        <ResizeSensor onResize={ this.onResize } />
+        { children }
       </div>
     );
   }

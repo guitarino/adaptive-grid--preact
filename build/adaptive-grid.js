@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.AdaptiveGrid = exports.AdaptiveGridItem = undefined;
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _preact = require('preact');
@@ -43,8 +45,8 @@ var AdaptiveGridItem = exports.AdaptiveGridItem = function (_preact$Component) {
     value: function render() {
       return _preact2.default.h(
         'div',
-        { 'class': 'AdaptiveGridItem', style: this.props.style },
-        'Hello there'
+        { 'class': 'AdaptiveGridItem', style: this.props.childStyle },
+        this.props.children
       );
     }
   }]);
@@ -57,10 +59,12 @@ var AdaptiveGridItem = exports.AdaptiveGridItem = function (_preact$Component) {
 function isFilled(colStart, rowStart, colEnd, rowEnd, arr) {
   var isFilled = false;
   arr.forEach(function (borders) {
-    var colStart2 = borders[0];
-    var rowStart2 = borders[1];
-    var colEnd2 = borders[2];
-    var rowEnd2 = borders[3];
+    var _borders = _slicedToArray(borders, 4),
+        colStart2 = _borders[0],
+        rowStart2 = _borders[1],
+        colEnd2 = _borders[2],
+        rowEnd2 = _borders[3];
+
     if (colStart < colEnd2 && colEnd > colStart2 && rowEnd2 > rowStart && rowStart2 < rowEnd) {
       isFilled = true;
       return false;
@@ -95,14 +99,20 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component2) {
     key: 'render',
     value: function render() {
       var availableWidth = this.state.width;
-      console.log(availableWidth);
+      var children = [];
+      this.props.children.forEach(function (child) {
+        if (child.nodeName === AdaptiveGridItem) {
+          children.push(child);
+        }
+      });
+      var gridStyle = { overflow: 'visible' };
       var maxHeight = 0;
       if (availableWidth > 0) {
         var baseWidth = this.props.baseWidth;
         var baseHeight = this.props.baseHeight;
         var totalColumns = Math.floor(availableWidth / baseWidth);
         var colWidth = availableWidth / totalColumns;
-        var childrenInfo = this.props.children.map(function (child) {
+        var childrenSizes = children.map(function (child) {
           var width = baseWidth;
           var height = baseHeight;
           if (child.attributes) {
@@ -114,12 +124,12 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component2) {
             }
           }
           return {
-            cols: Math.ceil(width / baseWidth),
+            cols: Math.min(totalColumns, Math.ceil(width / baseWidth)),
             rows: Math.ceil(height / baseHeight)
           };
         });
-        var remainingElements = [].slice.call(this.props.children);
-        var remainingElementsIds = Object.keys(this.props.children);
+        var remainingElements = [].slice.call(children);
+        var remainingElementsIds = Object.keys(children);
         var childrenCoords = [];
         var row = 0;
         var boundaries = [];
@@ -127,8 +137,8 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component2) {
           for (var col = 0; col < totalColumns; col++) {
             for (var elId = 0; elId < remainingElements.length; elId++) {
               var childId = remainingElementsIds[elId];
-              var cols = childrenInfo[childId].cols;
-              var rows = childrenInfo[childId].rows;
+              var cols = childrenSizes[childId].cols;
+              var rows = childrenSizes[childId].rows;
               if (col + cols <= totalColumns) {
                 if (!isFilled(col, row, col + cols, row + rows, boundaries)) {
                   remainingElements.splice(elId, 1);
@@ -143,29 +153,27 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component2) {
           }
           row++;
         }
-        this.props.children.forEach(function (child, i) {
+        children.forEach(function (child, i) {
           if (!child.attributes) {
             child.attributes = {};
           }
-          child.attributes.style = {
+          child.attributes.childStyle = {
             position: 'absolute',
             left: childrenCoords[i][0] * colWidth + 'px',
             top: childrenCoords[i][1] * baseHeight + 'px',
-            width: childrenInfo[i].cols * colWidth + 'px',
-            height: childrenInfo[i].rows * baseHeight + 'px'
+            width: childrenSizes[i].cols * colWidth + 'px',
+            height: childrenSizes[i].rows * baseHeight + 'px'
           };
-          var edge = (childrenCoords[i][1] + childrenInfo[i].rows) * baseHeight;
+          var edge = (childrenCoords[i][1] + childrenSizes[i].rows) * baseHeight;
           if (edge > maxHeight) maxHeight = edge;
-          // console.log(child.attributes);
         });
+        gridStyle.height = maxHeight;
       }
       return _preact2.default.h(
         'div',
-        { 'class': 'AdaptiveGrid', style: { height: maxHeight } },
-        _preact2.default.h(_resizeSensorPreact2.default, {
-          onResize: this.onResize
-        }),
-        this.props.children
+        { 'class': 'AdaptiveGrid', style: gridStyle },
+        _preact2.default.h(_resizeSensorPreact2.default, { onResize: this.onResize }),
+        children
       );
     }
   }]);
