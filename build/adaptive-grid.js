@@ -56,7 +56,10 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
     key: 'render',
     value: function render() {
       var children = this.getFilteredChildren();
-      var gridStyle = { overflow: 'visible' };
+      var gridStyle = {
+        overflow: 'visible',
+        position: 'relative'
+      };
       if (this.canCalculate()) {
         var totalColumns = this.getTotalColumns();
         var colWidth = this.getColWidth(totalColumns);
