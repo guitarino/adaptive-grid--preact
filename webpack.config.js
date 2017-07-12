@@ -3,7 +3,8 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    main: './demo/src/index.js'
+    main: './demo/src/index.js',
+    builder: './demo/src/builder.js'
   },
   output: {
     path: path.resolve(__dirname, 'demo/build'),

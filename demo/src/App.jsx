@@ -18,6 +18,9 @@ export default class App extends preact.Component {
     let h = 150;
     return (
       <div class='App'>
+        <div>
+          <a href='builder.html'>Play with it!</a>
+        </div>
         <AdaptiveGrid baseWidth={w} baseHeight={h} maxColumns={8}>
           <AdaptiveGridItem>
             <Card>One</Card>

@@ -119,7 +119,7 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
     key: 'getTotalColumns',
     value: function getTotalColumns() {
       var maxColumns = this.props.maxColumns ? this.props.maxColumns : Infinity;
-      return Math.min(maxColumns, Math.floor(this.state.width / this.props.baseWidth));
+      return Math.max(1, Math.min(maxColumns, Math.floor(this.state.width / this.props.baseWidth)));
     }
   }, {
     key: 'getColWidth',
