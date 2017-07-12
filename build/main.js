@@ -1847,6 +1847,96 @@ var App = function (_preact$Component) {
               null,
               'Eight'
             )
+          ),
+          _preact2.default.h(
+            _adaptiveGrid.AdaptiveGridItem,
+            { minWidth: 2 * w, minHeight: 2 * h },
+            _preact2.default.h(
+              Card,
+              null,
+              'Nine'
+            )
+          ),
+          _preact2.default.h(
+            _adaptiveGrid.AdaptiveGridItem,
+            { minHeight: 2 * h },
+            _preact2.default.h(
+              Card,
+              null,
+              'Ten'
+            )
+          ),
+          _preact2.default.h(
+            _adaptiveGrid.AdaptiveGridItem,
+            null,
+            _preact2.default.h(
+              Card,
+              null,
+              'Eleven'
+            )
+          ),
+          _preact2.default.h(
+            _adaptiveGrid.AdaptiveGridItem,
+            null,
+            _preact2.default.h(
+              Card,
+              null,
+              'Twelve'
+            )
+          ),
+          _preact2.default.h(
+            _adaptiveGrid.AdaptiveGridItem,
+            { minHeight: 2 * h },
+            _preact2.default.h(
+              Card,
+              null,
+              'Thirteen'
+            )
+          ),
+          _preact2.default.h(
+            _adaptiveGrid.AdaptiveGridItem,
+            { minWidth: 2 * w, minHeight: 2 * h },
+            _preact2.default.h(
+              Card,
+              null,
+              'Fourteen'
+            )
+          ),
+          _preact2.default.h(
+            _adaptiveGrid.AdaptiveGridItem,
+            { minWidth: 2 * w },
+            _preact2.default.h(
+              Card,
+              null,
+              'Fifteen'
+            )
+          ),
+          _preact2.default.h(
+            _adaptiveGrid.AdaptiveGridItem,
+            null,
+            _preact2.default.h(
+              Card,
+              null,
+              'Sixteen'
+            )
+          ),
+          _preact2.default.h(
+            _adaptiveGrid.AdaptiveGridItem,
+            null,
+            _preact2.default.h(
+              Card,
+              null,
+              'Seventeen'
+            )
+          ),
+          _preact2.default.h(
+            _adaptiveGrid.AdaptiveGridItem,
+            null,
+            _preact2.default.h(
+              Card,
+              null,
+              'Eighteen'
+            )
           )
         )
       );
