@@ -46,6 +46,38 @@ export default class App extends preact.Component {
           <AdaptiveGridItem>
             <Card>Eight</Card>
           </AdaptiveGridItem>
+
+          
+          <AdaptiveGridItem minWidth={2*w} minHeight={2*h}>
+            <Card>Nine</Card>
+          </AdaptiveGridItem>
+          <AdaptiveGridItem minHeight={2*h}>
+            <Card>Ten</Card>
+          </AdaptiveGridItem>
+          <AdaptiveGridItem>
+            <Card>Eleven</Card>
+          </AdaptiveGridItem>
+          <AdaptiveGridItem>
+            <Card>Twelve</Card>
+          </AdaptiveGridItem>
+          <AdaptiveGridItem minHeight={2*h}>
+            <Card>Thirteen</Card>
+          </AdaptiveGridItem>
+          <AdaptiveGridItem minWidth={2*w} minHeight={2*h}>
+            <Card>Fourteen</Card>
+          </AdaptiveGridItem>
+          <AdaptiveGridItem minWidth={2*w}>
+            <Card>Fifteen</Card>
+          </AdaptiveGridItem>
+          <AdaptiveGridItem>
+            <Card>Sixteen</Card>
+          </AdaptiveGridItem>
+          <AdaptiveGridItem>
+            <Card>Seventeen</Card>
+          </AdaptiveGridItem>
+          <AdaptiveGridItem>
+            <Card>Eighteen</Card>
+          </AdaptiveGridItem>
         </AdaptiveGrid>
       </div>
     );
