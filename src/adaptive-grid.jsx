@@ -33,7 +33,7 @@ export class AdaptiveGrid extends preact.Component {
       var colWidth = this.getColWidth(totalColumns);
       var sizes = this.getItemSizes(children, totalColumns);
       var coords = this.getItemCoordinates(children, sizes, totalColumns);
-      this.applyItemStyles(children, colWidth, sizes, coords);
+      children = this.applyItemStyles(children, colWidth, sizes, coords);
       gridStyle.height = this.getGridMaxHeight(children, sizes, coords) + 'px';
     }
     else {
@@ -146,18 +146,20 @@ export class AdaptiveGrid extends preact.Component {
   }
 
   applyItemStyles(children, colWidth, sizes, coords) {
-    children.forEach((child, i) => {
-      if (!child.attributes) {
-        child.attributes = {};
-      }
-      child.attributes.childStyle = {
-        position: 'absolute',
-        left: coords[i][0] * colWidth + 'px',
-        top: coords[i][1] * this.props.baseHeight + 'px',
-        width: sizes[i][0] * colWidth + 'px',
-        height: sizes[i][1] * this.props.baseHeight + 'px'
-      };
-    });
+    return children.map((child, i) => (
+      <AdaptiveGridItem
+        {...child.attributes}
+        childStyle={{
+          position: 'absolute',
+          left: coords[i][0] * colWidth + 'px',
+          top: coords[i][1] * this.props.baseHeight + 'px',
+          width: sizes[i][0] * colWidth + 'px',
+          height: sizes[i][1] * this.props.baseHeight + 'px'
+        }}
+      >
+        {child.children}
+      </AdaptiveGridItem>
+    ));
   }
 
   getGridMaxHeight(children, sizes, coords) {

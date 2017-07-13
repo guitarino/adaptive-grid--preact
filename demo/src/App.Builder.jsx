@@ -120,7 +120,7 @@ export default class App extends preact.Component {
     return (
       <div class='App'>
         <div>
-          <a href='index.html'>Read-only grid</a>
+          <a href='index.html'>Regular Adaptive Grid</a>
         </div>
         <dl class='App__baseVals'>
           <dt>Base width</dt>

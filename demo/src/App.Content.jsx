@@ -1,5 +1,5 @@
 import preact from 'preact';
-import { AdaptiveGrid, AdaptiveGridItem } from '../../build/adaptive-grid';
+import { AdaptiveGrid, AdaptiveGridItem } from '../../build/adaptive-content-grid';
 
 let Card = (props) => (
   <div class="Card">
@@ -19,10 +19,7 @@ export default class App extends preact.Component {
     return (
       <div class='App'>
         <div>
-          <a href='builder.html'>Play with it!</a>
-        </div>
-        <div>
-          <a href='content.html'>Adaptive Content Grid</a>
+          <a href='index.html'>Regular Adaptive Grid</a>
         </div>
         <AdaptiveGrid baseWidth={w} baseHeight={h} maxColumns={8}>
           <AdaptiveGridItem>
@@ -31,8 +28,12 @@ export default class App extends preact.Component {
           <AdaptiveGridItem>
             <Card>Two</Card>
           </AdaptiveGridItem>
-          <AdaptiveGridItem minWidth={2*w} minHeight={2*h}>
-            <Card>Three</Card>
+          <AdaptiveGridItem minWidth={2*w} minHeight='content' verticalAlign='middle'>
+            <Card>
+              <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel odio, fugit quia possimus dolor laboriosam soluta molestiae dolores reprehenderit nam. Iure adipisci sed dolore dolores perspiciatis maiores quod rem a!</div>
+              <div>Maiores velit inventore, quis obcaecati recusandae dolores fuga quae modi ab optio, molestiae, reiciendis officiis reprehenderit iure eum sint veritatis atque sapiente. Doloribus perspiciatis ipsa assumenda odio quasi vel, aliquid.</div>
+              <div>Voluptatem id corporis aliquam, in omnis? Culpa voluptatum impedit, magni inventore praesentium molestiae. Accusamus quidem cupiditate, sint voluptatibus mollitia rerum cum a esse. Nobis cum, soluta sint. Ducimus, doloremque quidem!</div>
+            </Card>
           </AdaptiveGridItem>
           <AdaptiveGridItem minWidth={2*w}>
             <Card>Four</Card>
