@@ -32,7 +32,7 @@ exports.AdaptiveGridItem = _adaptiveGrid.AdaptiveGridItem;
 // wraps content of a grid into an expandable container and content container
 // and adds resize sensor on the content container
 
-function Content(props) {
+function ContentContainer(props) {
   var paddingTop, paddingBottom;
   if (props.verticalAlign === 'middle') {
     paddingTop = props.contentGap / 2;
@@ -69,7 +69,16 @@ function Content(props) {
       props.children
     )
   );
-}
+};
+
+// This component doesn't really matter
+function EmptyComponent(props) {
+  return _preact2.default.h(
+    'div',
+    null,
+    props.children
+  );
+};
 
 // this grid composes the regular adaptive grid to add the 'content' functionality
 
@@ -83,95 +92,139 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
   }
 
   _createClass(AdaptiveGrid, [{
+    key: 'render',
+    value: function render() {
+      var newChildren = this.props.children.map(this.mapChildren),
+          style = this.visible ? {} : {
+        visibility: 'hidden'
+      };
+      return _preact2.default.h(
+        'div',
+        { style: style },
+        _preact2.default.h(
+          _adaptiveGrid.AdaptiveGrid,
+          {
+            baseWidth: this.props.baseWidth,
+            baseHeight: this.props.baseHeight,
+            maxColumns: this.props.maxColumns
+          },
+          newChildren
+        )
+      );
+    }
+  }, {
+    key: 'mapChildren',
+    value: function mapChildren(child, i) {
+      if (!(this.props.baseWidth > 0)) return child;
+      if (!(this.props.baseHeight > 0)) return child;
+      if (child.nodeName !== _adaptiveGrid.AdaptiveGridItem) return child;
+      if (!child.attributes) return child;
+      if (child.attributes.minHeight !== 'content') return child;
+      if (typeof child.attributes.content !== 'function') return child;
+      if (this.needsResizing === undefined) {
+        this.needsResizing = true;
+        this.visible = false;
+      }
+      var containerHeight = this.state.contentHeight[i] + this.state.padding[i],
+          minHeight = containerHeight || this.props.baseHeight,
+          fullHeight = Math.ceil(minHeight / this.props.baseHeight) * this.props.baseHeight,
+          refs = {},
+          containerRef = function containerRef(element) {
+        refs.container = element;
+      },
+          expandableContainerRef = function expandableContainerRef(element) {
+        refs.expandableContainer = element;
+      },
+          content = child.attributes.content(EmptyComponent),
+          contentChildren = content.children,
+          container = _preact2.default.h(
+        ContentContainer,
+        {
+          expandableContainerRef: expandableContainerRef,
+          contentGap: fullHeight - minHeight,
+          verticalAlign: child.attributes.verticalAlign,
+          onContentResize: this.onContentResize(i, refs)
+        },
+        contentChildren
+      ),
+          finalContainer = typeof child.attributes.container === 'function' ? child.attributes.container(container) : container;
+      return _preact2.default.h(
+        _adaptiveGrid.AdaptiveGridItem,
+        _extends({}, child.attributes, {
+          minHeight: minHeight
+        }),
+        _preact2.default.h(
+          'div',
+          { ref: containerRef },
+          finalContainer
+        )
+      );
+    }
+  }, {
+    key: 'bindAll',
+    value: function bindAll() {
+      this.mapChildren = this.mapChildren.bind(this);
+      this.onContentResize = this.onContentResize.bind(this);
+    }
+  }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
+      this.bindAll();
+      this.visible = true;
       this.state = { contentHeight: [], padding: [] };
     }
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps() {
+      this.visible = true;
       this.state = { contentHeight: [], padding: [] };
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
 
-      // for every content grid item, find the first element and wrap its children in the
-      // <Content /> wrapper
-      return _preact2.default.h(
-        _adaptiveGrid.AdaptiveGrid,
-        {
-          baseWidth: this.props.baseWidth,
-          baseHeight: this.props.baseHeight,
-          maxColumns: this.props.maxColumns
-        },
-        this.props.children.map(function (child, i) {
-          if (child.nodeName === _adaptiveGrid.AdaptiveGridItem) {
-            var props = child.attributes;
-            if (props && props.minHeight === 'content') {
-              // will be adding a <Content /> within the first child of grid item
-              var nextChild = child.children[0];
-              var NextChildComponent = nextChild.nodeName;
-              var nextChildAttributes = nextChild.attributes;
-              var nextChildChildren = nextChild.children;
-              // calculations:
-              var containerHeight = _this2.state.contentHeight[i] + _this2.state.padding[i];
-              var minHeight = containerHeight || _this2.props.baseHeight;
-              var fullHeight = Math.ceil(minHeight / _this2.props.baseHeight) * _this2.props.baseHeight;
-              var container, expandableContainer;
-              // if everything's ok
-              if (minHeight > 0 && fullHeight > 0) {
-                return _preact2.default.h(
-                  _adaptiveGrid.AdaptiveGridItem,
-                  _extends({}, props, {
-                    minHeight: minHeight
-                  }),
-                  _preact2.default.h(
-                    'div',
-                    { ref: function ref(element) {
-                        return container = element;
-                      } },
-                    _preact2.default.h(
-                      NextChildComponent,
-                      nextChildAttributes,
-                      _preact2.default.h(
-                        Content,
-                        {
-                          expandableContainerRef: function expandableContainerRef(element) {
-                            return expandableContainer = element;
-                          },
-                          contentGap: fullHeight - minHeight,
-                          verticalAlign: props.verticalAlign,
-                          onContentResize: function onContentResize(w, h) {
-                            var contentHeight = _this2.state.contentHeight.slice();
-                            var padding = _this2.state.padding.slice();
-                            contentHeight[i] = h;
-                            // at initial render, the padding will be container - content
-                            if (!padding[i]) {
-                              padding[i] = container.clientHeight - h;
-                            }
-                            // at all further renders, the padding will be container - expanded content
-                            else {
-                                padding[i] = container.clientHeight - expandableContainer.clientHeight;
-                              }
-                            _this2.setState({
-                              contentHeight: contentHeight,
-                              padding: padding
-                            });
-                          }
-                        },
-                        nextChildChildren
-                      )
-                    )
-                  )
-                );
-              }
-            }
+    // to avoid seeing overlap between grid items, we defer
+    // making grid visible by a few frames so that it has time
+    // to change sizes
+
+  }, {
+    key: 'makeVisible',
+    value: function makeVisible() {
+      var self = this;
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(function () {
+          window.requestAnimationFrame(function () {
+            self.visible = true;
+            self.forceUpdate();
+          });
+        });
+      });
+    }
+
+    // callback for when the content for an item is resized
+
+  }, {
+    key: 'onContentResize',
+    value: function onContentResize(i, refs) {
+      var self = this;
+      return function (w, h) {
+        if (self.needsResizing) {
+          self.needsResizing = false;
+          self.makeVisible();
+        }
+        var contentHeight = self.state.contentHeight.slice(),
+            padding = self.state.padding.slice();
+        contentHeight[i] = h;
+        // at initial render, the padding will be container - content
+        if (!padding[i]) {
+          padding[i] = refs.container.clientHeight - h;
+        }
+        // at all further renders, the padding will be container - expanded content
+        else {
+            padding[i] = refs.container.clientHeight - refs.expandableContainer.clientHeight;
           }
-          return child;
-        })
-      );
+        self.setState({
+          contentHeight: contentHeight,
+          padding: padding
+        });
+      };
     }
   }]);
 
