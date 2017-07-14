@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 18);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1740,13 +1740,19 @@ exports.push([module.i, "body, body * {\r\n  box-sizing: border-box;\r\n}\r\n\r\
 
 
 /***/ }),
-/* 12 */
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _App = __webpack_require__(13);
+var _App = __webpack_require__(19);
 
 __webpack_require__(7);
 
@@ -1757,7 +1763,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 /***/ }),
-/* 13 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1775,7 +1781,9 @@ var _preact = __webpack_require__(0);
 
 var _preact2 = _interopRequireDefault(_preact);
 
-var _adaptiveGrid = __webpack_require__(4);
+var _adaptiveContentGrid = __webpack_require__(20);
+
+__webpack_require__(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1824,24 +1832,15 @@ var App = function (_preact$Component) {
           null,
           _preact2.default.h(
             'a',
-            { href: 'builder.html' },
-            'Play with it!'
+            { href: 'index.html' },
+            'Regular Adaptive Grid'
           )
         ),
         _preact2.default.h(
-          'div',
-          null,
-          _preact2.default.h(
-            'a',
-            { href: 'content.html' },
-            'Adaptive Content Grid'
-          )
-        ),
-        _preact2.default.h(
-          _adaptiveGrid.AdaptiveGrid,
+          _adaptiveContentGrid.AdaptiveGrid,
           { baseWidth: w, baseHeight: h, maxColumns: 8 },
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             null,
             _preact2.default.h(
               Card,
@@ -1850,7 +1849,7 @@ var App = function (_preact$Component) {
             )
           ),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             null,
             _preact2.default.h(
               Card,
@@ -1858,17 +1857,41 @@ var App = function (_preact$Component) {
               'Two'
             )
           ),
+          _preact2.default.h(_adaptiveContentGrid.AdaptiveGridItem, {
+            minWidth: 2 * w,
+            minHeight: 'content',
+            verticalAlign: 'middle',
+            container: function container(Content) {
+              return _preact2.default.h(
+                Card,
+                null,
+                Content
+              );
+            },
+            content: function content(ContentContainer) {
+              return _preact2.default.h(
+                ContentContainer,
+                null,
+                _preact2.default.h(
+                  'div',
+                  null,
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel odio, fugit quia possimus dolor laboriosam soluta molestiae dolores reprehenderit nam. Iure adipisci sed dolore dolores perspiciatis maiores quod rem a!'
+                ),
+                _preact2.default.h(
+                  'div',
+                  null,
+                  'Maiores velit inventore, quis obcaecati recusandae dolores fuga quae modi ab optio, molestiae, reiciendis officiis reprehenderit iure eum sint veritatis atque sapiente. Doloribus perspiciatis ipsa assumenda odio quasi vel, aliquid.'
+                ),
+                _preact2.default.h(
+                  'div',
+                  null,
+                  'Voluptatem id corporis aliquam, in omnis? Culpa voluptatum impedit, magni inventore praesentium molestiae. Accusamus quidem cupiditate, sint voluptatibus mollitia rerum cum a esse. Nobis cum, soluta sint. Ducimus, doloremque quidem!'
+                )
+              );
+            }
+          }),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
-            { minWidth: 2 * w, minHeight: 2 * h },
-            _preact2.default.h(
-              Card,
-              null,
-              'Three'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             { minWidth: 2 * w },
             _preact2.default.h(
               Card,
@@ -1877,7 +1900,7 @@ var App = function (_preact$Component) {
             )
           ),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             { minWidth: 2 * w, minHeight: 2 * h },
             _preact2.default.h(
               Card,
@@ -1886,7 +1909,7 @@ var App = function (_preact$Component) {
             )
           ),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             { minWidth: 2 * w },
             _preact2.default.h(
               Card,
@@ -1895,7 +1918,7 @@ var App = function (_preact$Component) {
             )
           ),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             null,
             _preact2.default.h(
               Card,
@@ -1904,7 +1927,7 @@ var App = function (_preact$Component) {
             )
           ),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             null,
             _preact2.default.h(
               Card,
@@ -1913,7 +1936,7 @@ var App = function (_preact$Component) {
             )
           ),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             { minWidth: 2 * w, minHeight: 2 * h },
             _preact2.default.h(
               Card,
@@ -1922,7 +1945,7 @@ var App = function (_preact$Component) {
             )
           ),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             { minHeight: 2 * h },
             _preact2.default.h(
               Card,
@@ -1931,7 +1954,7 @@ var App = function (_preact$Component) {
             )
           ),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             null,
             _preact2.default.h(
               Card,
@@ -1940,7 +1963,7 @@ var App = function (_preact$Component) {
             )
           ),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             null,
             _preact2.default.h(
               Card,
@@ -1949,7 +1972,7 @@ var App = function (_preact$Component) {
             )
           ),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             { minHeight: 2 * h },
             _preact2.default.h(
               Card,
@@ -1958,7 +1981,7 @@ var App = function (_preact$Component) {
             )
           ),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             { minWidth: 2 * w, minHeight: 2 * h },
             _preact2.default.h(
               Card,
@@ -1967,7 +1990,7 @@ var App = function (_preact$Component) {
             )
           ),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             { minWidth: 2 * w },
             _preact2.default.h(
               Card,
@@ -1976,7 +1999,7 @@ var App = function (_preact$Component) {
             )
           ),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             null,
             _preact2.default.h(
               Card,
@@ -1985,7 +2008,7 @@ var App = function (_preact$Component) {
             )
           ),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             null,
             _preact2.default.h(
               Card,
@@ -1994,7 +2017,7 @@ var App = function (_preact$Component) {
             )
           ),
           _preact2.default.h(
-            _adaptiveGrid.AdaptiveGridItem,
+            _adaptiveContentGrid.AdaptiveGridItem,
             null,
             _preact2.default.h(
               Card,
@@ -2017,6 +2040,650 @@ function renderApp(where) {
   _preact2.default.render(_preact2.default.h(App, null), where);
 }
 
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.AdaptiveGrid = exports.AdaptiveGridItem = undefined;
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
+
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
+
+var _preact = __webpack_require__(0);
+
+var _preact2 = _interopRequireDefault(_preact);
+
+var _resizeSensorPreact = __webpack_require__(3);
+
+var _resizeSensorPreact2 = _interopRequireDefault(_resizeSensorPreact);
+
+var _adaptiveGrid = __webpack_require__(4);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+exports.AdaptiveGridItem = _adaptiveGrid.AdaptiveGridItem;
+
+// wraps content of a grid into an expandable container and content container
+// and adds resize sensor on the content container
+
+function ContentContainer(props) {
+  var paddingTop, paddingBottom;
+  if (props.verticalAlign === 'middle') {
+    paddingTop = props.contentGap / 2;
+    paddingBottom = props.contentGap / 2;
+  } else if (props.verticalAlign === 'bottom') {
+    paddingTop = props.contentGap;
+    paddingBottom = 0;
+  } else {
+    paddingTop = 0;
+    paddingBottom = props.contentGap;
+  }
+  return _preact2.default.h('div', {
+    ref: props.expandableContainerRef,
+    style: {
+      display: 'inline-block',
+      width: '100%',
+      position: 'relative',
+      paddingTop: paddingTop + 'px',
+      paddingBottom: paddingBottom + 'px'
+    }
+  }, _preact2.default.h('div', {
+    style: {
+      display: 'inline-block',
+      width: '100%',
+      position: 'relative'
+    }
+  }, _preact2.default.h(_resizeSensorPreact2.default, { onResize: props.onContentResize }), props.children));
+};
+
+// This component doesn't really matter
+function EmptyComponent(props) {
+  return _preact2.default.h('div', null, props.children);
+};
+
+// this grid composes the regular adaptive grid to add the 'content' functionality
+
+var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
+  _inherits(AdaptiveGrid, _preact$Component);
+
+  function AdaptiveGrid() {
+    _classCallCheck(this, AdaptiveGrid);
+
+    return _possibleConstructorReturn(this, (AdaptiveGrid.__proto__ || Object.getPrototypeOf(AdaptiveGrid)).apply(this, arguments));
+  }
+
+  _createClass(AdaptiveGrid, [{
+    key: 'render',
+    value: function render() {
+      var newChildren = this.props.children.map(this.mapChildren),
+          style = this.visible ? {} : {
+        visibility: 'hidden'
+      };
+      return _preact2.default.h('div', { style: style }, _preact2.default.h(_adaptiveGrid.AdaptiveGrid, {
+        baseWidth: this.props.baseWidth,
+        baseHeight: this.props.baseHeight,
+        maxColumns: this.props.maxColumns
+      }, newChildren));
+    }
+  }, {
+    key: 'mapChildren',
+    value: function mapChildren(child, i) {
+      if (!(this.props.baseWidth > 0)) return child;
+      if (!(this.props.baseHeight > 0)) return child;
+      if (child.nodeName !== _adaptiveGrid.AdaptiveGridItem) return child;
+      if (!child.attributes) return child;
+      if (child.attributes.minHeight !== 'content') return child;
+      if (typeof child.attributes.content !== 'function') return child;
+      if (this.needsResizing === undefined) {
+        this.needsResizing = true;
+        this.visible = false;
+      }
+      var containerHeight = this.state.contentHeight[i] + this.state.padding[i],
+          minHeight = containerHeight || this.props.baseHeight,
+          fullHeight = Math.ceil(minHeight / this.props.baseHeight) * this.props.baseHeight,
+          refs = {},
+          containerRef = function containerRef(element) {
+        refs.container = element;
+      },
+          expandableContainerRef = function expandableContainerRef(element) {
+        refs.expandableContainer = element;
+      },
+          content = child.attributes.content(EmptyComponent),
+          contentChildren = content.children,
+          container = _preact2.default.h(ContentContainer, {
+        expandableContainerRef: expandableContainerRef,
+        contentGap: fullHeight - minHeight,
+        verticalAlign: child.attributes.verticalAlign,
+        onContentResize: this.onContentResize(i, refs)
+      }, contentChildren),
+          finalContainer = typeof child.attributes.container === 'function' ? child.attributes.container(container) : container;
+      return _preact2.default.h(_adaptiveGrid.AdaptiveGridItem, _extends({}, child.attributes, {
+        minHeight: minHeight
+      }), _preact2.default.h('div', { ref: containerRef }, finalContainer));
+    }
+  }, {
+    key: 'bindAll',
+    value: function bindAll() {
+      this.mapChildren = this.mapChildren.bind(this);
+      this.onContentResize = this.onContentResize.bind(this);
+    }
+  }, {
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.bindAll();
+      this.visible = true;
+      this.state = { contentHeight: [], padding: [] };
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps() {
+      this.visible = true;
+      this.state = { contentHeight: [], padding: [] };
+    }
+
+    // to avoid seeing overlap between grid items, we defer
+    // making grid visible by a few frames so that it has time
+    // to change sizes
+
+  }, {
+    key: 'makeVisible',
+    value: function makeVisible() {
+      var self = this;
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(function () {
+          window.requestAnimationFrame(function () {
+            self.visible = true;
+            self.forceUpdate();
+          });
+        });
+      });
+    }
+
+    // callback for when the content for an item is resized
+
+  }, {
+    key: 'onContentResize',
+    value: function onContentResize(i, refs) {
+      var self = this;
+      return function (w, h) {
+        if (self.needsResizing) {
+          self.needsResizing = false;
+          self.makeVisible();
+        }
+        var contentHeight = self.state.contentHeight.slice(),
+            padding = self.state.padding.slice();
+        contentHeight[i] = h;
+        // at initial render, the padding will be container - content
+        if (!padding[i]) {
+          padding[i] = refs.container.clientHeight - h;
+        }
+        // at all further renders, the padding will be container - expanded content
+        else {
+            padding[i] = refs.container.clientHeight - refs.expandableContainer.clientHeight;
+          }
+        self.setState({
+          contentHeight: contentHeight,
+          padding: padding
+        });
+      };
+    }
+  }]);
+
+  return AdaptiveGrid;
+}(_preact2.default.Component);
+
+;
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function (global, factory) {
+	 true ? factory(__webpack_require__(0)) :
+	typeof define === 'function' && define.amd ? define(['preact'], factory) :
+	(factory(global.preact));
+}(this, (function (preact) { 'use strict';
+
+// render modes
+
+var ATTR_KEY = '__preactattr_';
+
+/* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
+
+// Internal helpers from preact
+/**
+ * Return a ReactElement-compatible object for the current state of a preact
+ * component.
+ */
+function createReactElement(component) {
+	return {
+		type: component.constructor,
+		key: component.key,
+		ref: null, // Unsupported
+		props: component.props
+	};
+}
+
+/**
+ * Create a ReactDOMComponent-compatible object for a given DOM node rendered
+ * by preact.
+ *
+ * This implements the subset of the ReactDOMComponent interface that
+ * React DevTools requires in order to display DOM nodes in the inspector with
+ * the correct type and properties.
+ *
+ * @param {Node} node
+ */
+function createReactDOMComponent(node) {
+	var childNodes = node.nodeType === Node.ELEMENT_NODE ? Array.from(node.childNodes) : [];
+
+	var isText = node.nodeType === Node.TEXT_NODE;
+
+	return {
+		// --- ReactDOMComponent interface
+		_currentElement: isText ? node.textContent : {
+			type: node.nodeName.toLowerCase(),
+			props: node[ATTR_KEY]
+		},
+		_renderedChildren: childNodes.map(function (child) {
+			if (child._component) {
+				return updateReactComponent(child._component);
+			}
+			return updateReactComponent(child);
+		}),
+		_stringText: isText ? node.textContent : null,
+
+		// --- Additional properties used by preact devtools
+
+		// A flag indicating whether the devtools have been notified about the
+		// existence of this component instance yet.
+		// This is used to send the appropriate notifications when DOM components
+		// are added or updated between composite component updates.
+		_inDevTools: false,
+		node: node
+	};
+}
+
+/**
+ * Return the name of a component created by a `ReactElement`-like object.
+ *
+ * @param {ReactElement} element
+ */
+function typeName(element) {
+	if (typeof element.type === 'function') {
+		return element.type.displayName || element.type.name;
+	}
+	return element.type;
+}
+
+/**
+ * Return a ReactCompositeComponent-compatible object for a given preact
+ * component instance.
+ *
+ * This implements the subset of the ReactCompositeComponent interface that
+ * the DevTools requires in order to walk the component tree and inspect the
+ * component's properties.
+ *
+ * See https://github.com/facebook/react-devtools/blob/e31ec5825342eda570acfc9bcb43a44258fceb28/backend/getData.js
+ */
+function createReactCompositeComponent(component) {
+	var _currentElement = createReactElement(component);
+	var node = component.base;
+
+	var instance = {
+		// --- ReactDOMComponent properties
+		getName: function getName() {
+			return typeName(_currentElement);
+		},
+		_currentElement: createReactElement(component),
+		props: component.props,
+		state: component.state,
+		forceUpdate: component.forceUpdate && component.forceUpdate.bind(component),
+		setState: component.setState && component.setState.bind(component),
+
+		// --- Additional properties used by preact devtools
+		node: node
+	};
+
+	// React DevTools exposes the `_instance` field of the selected item in the
+	// component tree as `$r` in the console.  `_instance` must refer to a
+	// React Component (or compatible) class instance with `props` and `state`
+	// fields and `setState()`, `forceUpdate()` methods.
+	instance._instance = component;
+
+	// If the root node returned by this component instance's render function
+	// was itself a composite component, there will be a `_component` property
+	// containing the child component instance.
+	if (component._component) {
+		instance._renderedComponent = updateReactComponent(component._component);
+	} else {
+		// Otherwise, if the render() function returned an HTML/SVG element,
+		// create a ReactDOMComponent-like object for the DOM node itself.
+		instance._renderedComponent = updateReactComponent(node);
+	}
+
+	return instance;
+}
+
+/**
+ * Map of Component|Node to ReactDOMComponent|ReactCompositeComponent-like
+ * object.
+ *
+ * The same React*Component instance must be used when notifying devtools
+ * about the initial mount of a component and subsequent updates.
+ */
+var instanceMap = typeof Map === 'function' && new Map();
+
+/**
+ * Update (and create if necessary) the ReactDOMComponent|ReactCompositeComponent-like
+ * instance for a given preact component instance or DOM Node.
+ *
+ * @param {Component|Node} componentOrNode
+ */
+function updateReactComponent(componentOrNode) {
+	var newInstance = componentOrNode instanceof Node ? createReactDOMComponent(componentOrNode) : createReactCompositeComponent(componentOrNode);
+	if (instanceMap.has(componentOrNode)) {
+		var inst = instanceMap.get(componentOrNode);
+		Object.assign(inst, newInstance);
+		return inst;
+	}
+	instanceMap.set(componentOrNode, newInstance);
+	return newInstance;
+}
+
+function nextRootKey(roots) {
+	return '.' + Object.keys(roots).length;
+}
+
+/**
+ * Find all root component instances rendered by preact in `node`'s children
+ * and add them to the `roots` map.
+ *
+ * @param {DOMElement} node
+ * @param {[key: string] => ReactDOMComponent|ReactCompositeComponent}
+ */
+function findRoots(node, roots) {
+	Array.from(node.childNodes).forEach(function (child) {
+		if (child._component) {
+			roots[nextRootKey(roots)] = updateReactComponent(child._component);
+		} else {
+			findRoots(child, roots);
+		}
+	});
+}
+
+/**
+ * Create a bridge for exposing preact's component tree to React DevTools.
+ *
+ * It creates implementations of the interfaces that ReactDOM passes to
+ * devtools to enable it to query the component tree and hook into component
+ * updates.
+ *
+ * See https://github.com/facebook/react/blob/59ff7749eda0cd858d5ee568315bcba1be75a1ca/src/renderers/dom/ReactDOM.js
+ * for how ReactDOM exports its internals for use by the devtools and
+ * the `attachRenderer()` function in
+ * https://github.com/facebook/react-devtools/blob/e31ec5825342eda570acfc9bcb43a44258fceb28/backend/attachRenderer.js
+ * for how the devtools consumes the resulting objects.
+ */
+function createDevToolsBridge() {
+	// The devtools has different paths for interacting with the renderers from
+	// React Native, legacy React DOM and current React DOM.
+	//
+	// Here we emulate the interface for the current React DOM (v15+) lib.
+
+	// ReactDOMComponentTree-like object
+	var ComponentTree = {
+		getNodeFromInstance: function getNodeFromInstance(instance) {
+			return instance.node;
+		},
+		getClosestInstanceFromNode: function getClosestInstanceFromNode(node) {
+			while (node && !node._component) {
+				node = node.parentNode;
+			}
+			return node ? updateReactComponent(node._component) : null;
+		}
+	};
+
+	// Map of root ID (the ID is unimportant) to component instance.
+	var roots = {};
+	findRoots(document.body, roots);
+
+	// ReactMount-like object
+	//
+	// Used by devtools to discover the list of root component instances and get
+	// notified when new root components are rendered.
+	var Mount = {
+		_instancesByReactRootID: roots,
+
+		// Stub - React DevTools expects to find this method and replace it
+		// with a wrapper in order to observe new root components being added
+		_renderNewRootComponent: function _renderNewRootComponent() /* instance, ... */{}
+	};
+
+	// ReactReconciler-like object
+	var Reconciler = {
+		// Stubs - React DevTools expects to find these methods and replace them
+		// with wrappers in order to observe components being mounted, updated and
+		// unmounted
+		mountComponent: function mountComponent() /* instance, ... */{},
+		performUpdateIfNecessary: function performUpdateIfNecessary() /* instance, ... */{},
+		receiveComponent: function receiveComponent() /* instance, ... */{},
+		unmountComponent: function unmountComponent() /* instance, ... */{}
+	};
+
+	/** Notify devtools that a new component instance has been mounted into the DOM. */
+	var componentAdded = function componentAdded(component) {
+		var instance = updateReactComponent(component);
+		if (isRootComponent(component)) {
+			instance._rootID = nextRootKey(roots);
+			roots[instance._rootID] = instance;
+			Mount._renderNewRootComponent(instance);
+		}
+		visitNonCompositeChildren(instance, function (childInst) {
+			childInst._inDevTools = true;
+			Reconciler.mountComponent(childInst);
+		});
+		Reconciler.mountComponent(instance);
+	};
+
+	/** Notify devtools that a component has been updated with new props/state. */
+	var componentUpdated = function componentUpdated(component) {
+		var prevRenderedChildren = [];
+		visitNonCompositeChildren(instanceMap.get(component), function (childInst) {
+			prevRenderedChildren.push(childInst);
+		});
+
+		// Notify devtools about updates to this component and any non-composite
+		// children
+		var instance = updateReactComponent(component);
+		Reconciler.receiveComponent(instance);
+		visitNonCompositeChildren(instance, function (childInst) {
+			if (!childInst._inDevTools) {
+				// New DOM child component
+				childInst._inDevTools = true;
+				Reconciler.mountComponent(childInst);
+			} else {
+				// Updated DOM child component
+				Reconciler.receiveComponent(childInst);
+			}
+		});
+
+		// For any non-composite children that were removed by the latest render,
+		// remove the corresponding ReactDOMComponent-like instances and notify
+		// the devtools
+		prevRenderedChildren.forEach(function (childInst) {
+			if (!document.body.contains(childInst.node)) {
+				instanceMap['delete'](childInst.node);
+				Reconciler.unmountComponent(childInst);
+			}
+		});
+	};
+
+	/** Notify devtools that a component has been unmounted from the DOM. */
+	var componentRemoved = function componentRemoved(component) {
+		var instance = updateReactComponent(component);
+		visitNonCompositeChildren(function (childInst) {
+			instanceMap['delete'](childInst.node);
+			Reconciler.unmountComponent(childInst);
+		});
+		Reconciler.unmountComponent(instance);
+		instanceMap['delete'](component);
+		if (instance._rootID) {
+			delete roots[instance._rootID];
+		}
+	};
+
+	return {
+		componentAdded: componentAdded,
+		componentUpdated: componentUpdated,
+		componentRemoved: componentRemoved,
+
+		// Interfaces passed to devtools via __REACT_DEVTOOLS_GLOBAL_HOOK__.inject()
+		ComponentTree: ComponentTree,
+		Mount: Mount,
+		Reconciler: Reconciler
+	};
+}
+
+/**
+ * Return `true` if a preact component is a top level component rendered by
+ * `render()` into a container Element.
+ */
+function isRootComponent(component) {
+	// `_parentComponent` is actually `__u` after minification
+	if (component._parentComponent || component.__u) {
+		// Component with a composite parent
+		return false;
+	}
+	if (component.base.parentElement && component.base.parentElement[ATTR_KEY]) {
+		// Component with a parent DOM element rendered by Preact
+		return false;
+	}
+	return true;
+}
+
+/**
+ * Visit all child instances of a ReactCompositeComponent-like object that are
+ * not composite components (ie. they represent DOM elements or text)
+ *
+ * @param {Component} component
+ * @param {(Component) => void} visitor
+ */
+function visitNonCompositeChildren(component, visitor) {
+	if (component._renderedComponent) {
+		if (!component._renderedComponent._component) {
+			visitor(component._renderedComponent);
+			visitNonCompositeChildren(component._renderedComponent, visitor);
+		}
+	} else if (component._renderedChildren) {
+		component._renderedChildren.forEach(function (child) {
+			visitor(child);
+			if (!child._component) visitNonCompositeChildren(child, visitor);
+		});
+	}
+}
+
+/**
+ * Create a bridge between the preact component tree and React's dev tools
+ * and register it.
+ *
+ * After this function is called, the React Dev Tools should be able to detect
+ * "React" on the page and show the component tree.
+ *
+ * This function hooks into preact VNode creation in order to expose functional
+ * components correctly, so it should be called before the root component(s)
+ * are rendered.
+ *
+ * Returns a cleanup function which unregisters the hooks.
+ */
+
+function initDevTools() {
+	if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined') {
+		// React DevTools are not installed
+		return;
+	}
+
+	// Notify devtools when preact components are mounted, updated or unmounted
+	var bridge = createDevToolsBridge();
+
+	var nextAfterMount = preact.options.afterMount;
+	preact.options.afterMount = function (component) {
+		bridge.componentAdded(component);
+		if (nextAfterMount) nextAfterMount(component);
+	};
+
+	var nextAfterUpdate = preact.options.afterUpdate;
+	preact.options.afterUpdate = function (component) {
+		bridge.componentUpdated(component);
+		if (nextAfterUpdate) nextAfterUpdate(component);
+	};
+
+	var nextBeforeUnmount = preact.options.beforeUnmount;
+	preact.options.beforeUnmount = function (component) {
+		bridge.componentRemoved(component);
+		if (nextBeforeUnmount) nextBeforeUnmount(component);
+	};
+
+	// Notify devtools about this instance of "React"
+	__REACT_DEVTOOLS_GLOBAL_HOOK__.inject(bridge);
+
+	return function () {
+		preact.options.afterMount = nextAfterMount;
+		preact.options.afterUpdate = nextAfterUpdate;
+		preact.options.beforeUnmount = nextBeforeUnmount;
+	};
+}
+
+initDevTools();
+
+})));
+
+
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.js.map
+//# sourceMappingURL=content.js.map
