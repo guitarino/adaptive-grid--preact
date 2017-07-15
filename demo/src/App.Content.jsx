@@ -15,43 +15,47 @@ let Card = (props) => (
 
 export default class App extends preact.Component {
   componentWillMount() {
-    let w = 150;
-    let h = 150;
-    this.state = (
-      Array.from(Array(50)).map((u,i)=>(
-        Math.random() > 0.4 ? (
-          <AdaptiveGridItem
-            minWidth={Math.random()*3*w}
-            minHeight={Math.random()*3*h}
-          >
-            <Card>{ i }</Card>
-          </AdaptiveGridItem>
-        ) : (
-          <AdaptiveGridItem
-            minWidth={(Math.random()*2+1)*w}
-            minHeight='content'
-            verticalAlign='middle'
-          >
-            <Card>
+    let
+      w = 225,
+      h = 200
+    ;
+    this.state = {
+      w: w,
+      h: h,
+      grid: (
+        [...Array(50)].map((u,i)=>(
+          Math.random() > 0.4 ? (
+            <AdaptiveGridItem
+              minWidth={Math.random()*2*w}
+              minHeight={Math.random()*2*h}
+            >
+              <Card>{ i }</Card>
+            </AdaptiveGridItem>
+          ) : (
+            <AdaptiveGridItem
+              minWidth={(Math.random()*2+1)*w}
+              minHeight='content'
+              verticalAlign='middle'
+            >
+              <Card>
                 {
-                  ("lorem ip sum ").repeat(50*Math.random()+1)
+                  Array(Math.ceil(50*Math.random()+1)).join("lore m ip sum ")
                 }
-            </Card>
-          </AdaptiveGridItem>
-        )
-      ))
-    );
+              </Card>
+            </AdaptiveGridItem>
+          )
+        ))
+      )
+    };
   }
   render() {
-    let w = 150;
-    let h = 150;
     return (
       <div class='App'>
         <div>
           <a href='index.html'>Regular Adaptive Grid</a>
         </div>
-        <AdaptiveGrid baseWidth={w} baseHeight={h}>
-          { this.state }
+        <AdaptiveGrid baseWidth={ this.state.w } baseHeight={ this.state.h }>
+          { this.state.grid }
         </AdaptiveGrid>
       </div>
     );
