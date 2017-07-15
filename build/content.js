@@ -1824,40 +1824,42 @@ var App = function (_preact$Component) {
   _createClass(App, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      var w = 150;
-      var h = 150;
-      this.state = [].concat(_toConsumableArray(Array(50))).map(function (u, i) {
-        return Math.random() > 0.4 ? _preact2.default.h(
-          _adaptiveContentGrid.AdaptiveGridItem,
-          {
-            minWidth: Math.random() * 3 * w,
-            minHeight: Math.random() * 3 * h
-          },
-          _preact2.default.h(
-            Card,
-            null,
-            i
-          )
-        ) : _preact2.default.h(
-          _adaptiveContentGrid.AdaptiveGridItem,
-          {
-            minWidth: (Math.random() * 2 + 1) * w,
-            minHeight: 'content',
-            verticalAlign: 'middle'
-          },
-          _preact2.default.h(
-            Card,
-            null,
-            Array(Math.ceil(50 * Math.random() + 1)).join("lore m ip sum ")
-          )
-        );
-      });
+      var w = 225,
+          h = 200;
+      this.state = {
+        w: w,
+        h: h,
+        grid: [].concat(_toConsumableArray(Array(50))).map(function (u, i) {
+          return Math.random() > 0.4 ? _preact2.default.h(
+            _adaptiveContentGrid.AdaptiveGridItem,
+            {
+              minWidth: Math.random() * 2 * w,
+              minHeight: Math.random() * 2 * h
+            },
+            _preact2.default.h(
+              Card,
+              null,
+              i
+            )
+          ) : _preact2.default.h(
+            _adaptiveContentGrid.AdaptiveGridItem,
+            {
+              minWidth: (Math.random() * 2 + 1) * w,
+              minHeight: 'content',
+              verticalAlign: 'middle'
+            },
+            _preact2.default.h(
+              Card,
+              null,
+              Array(Math.ceil(50 * Math.random() + 1)).join("lore m ip sum ")
+            )
+          );
+        })
+      };
     }
   }, {
     key: 'render',
     value: function render() {
-      var w = 150;
-      var h = 150;
       return _preact2.default.h(
         'div',
         { 'class': 'App' },
@@ -1872,8 +1874,8 @@ var App = function (_preact$Component) {
         ),
         _preact2.default.h(
           _adaptiveContentGrid.AdaptiveGrid,
-          { baseWidth: w, baseHeight: h },
-          this.state
+          { baseWidth: this.state.w, baseHeight: this.state.h },
+          this.state.grid
         )
       );
     }
