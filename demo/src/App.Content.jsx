@@ -14,6 +14,34 @@ let Card = (props) => (
 );
 
 export default class App extends preact.Component {
+  componentWillMount() {
+    let w = 150;
+    let h = 150;
+    this.state = (
+      Array.from(Array(50)).map((u,i)=>(
+        Math.random() > 0.4 ? (
+          <AdaptiveGridItem
+            minWidth={Math.random()*3*w}
+            minHeight={Math.random()*3*h}
+          >
+            <Card>{ i }</Card>
+          </AdaptiveGridItem>
+        ) : (
+          <AdaptiveGridItem
+            minWidth={(Math.random()*2+1)*w}
+            minHeight='content'
+            verticalAlign='middle'
+          >
+            <Card>
+                {
+                  ("lorem ip sum ").repeat(50*Math.random()+1)
+                }
+            </Card>
+          </AdaptiveGridItem>
+        )
+      ))
+    );
+  }
   render() {
     let w = 150;
     let h = 150;
@@ -22,75 +50,8 @@ export default class App extends preact.Component {
         <div>
           <a href='index.html'>Regular Adaptive Grid</a>
         </div>
-        <AdaptiveGrid baseWidth={w} baseHeight={h} maxColumns={8}>
-          <AdaptiveGridItem>
-            <Card>One</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem>
-            <Card>Two</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem
-            minWidth={2*w}
-            minHeight='content'
-            verticalAlign='middle'
-            container={(Content) => (
-              <Card>
-                { Content }
-              </Card>
-            )}
-            content={(ContentContainer) => (
-              <ContentContainer>
-                <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel odio, fugit quia possimus dolor laboriosam soluta molestiae dolores reprehenderit nam. Iure adipisci sed dolore dolores perspiciatis maiores quod rem a!</div>
-                <div>Maiores velit inventore, quis obcaecati recusandae dolores fuga quae modi ab optio, molestiae, reiciendis officiis reprehenderit iure eum sint veritatis atque sapiente. Doloribus perspiciatis ipsa assumenda odio quasi vel, aliquid.</div>
-                <div>Voluptatem id corporis aliquam, in omnis? Culpa voluptatum impedit, magni inventore praesentium molestiae. Accusamus quidem cupiditate, sint voluptatibus mollitia rerum cum a esse. Nobis cum, soluta sint. Ducimus, doloremque quidem!</div>
-              </ContentContainer>
-            )}
-          />
-          <AdaptiveGridItem minWidth={2*w}>
-            <Card>Four</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem minWidth={2*w} minHeight={2*h}>
-            <Card>Five</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem minWidth={2*w}>
-            <Card>Six</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem>
-            <Card>Seven</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem>
-            <Card>Eight</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem minWidth={2*w} minHeight={2*h}>
-            <Card>Nine</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem minHeight={2*h}>
-            <Card>Ten</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem>
-            <Card>Eleven</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem>
-            <Card>Twelve</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem minHeight={2*h}>
-            <Card>Thirteen</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem minWidth={2*w} minHeight={2*h}>
-            <Card>Fourteen</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem minWidth={2*w}>
-            <Card>Fifteen</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem>
-            <Card>Sixteen</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem>
-            <Card>Seventeen</Card>
-          </AdaptiveGridItem>
-          <AdaptiveGridItem>
-            <Card>Eighteen</Card>
-          </AdaptiveGridItem>
+        <AdaptiveGrid baseWidth={w} baseHeight={h}>
+          { this.state }
         </AdaptiveGrid>
       </div>
     );

@@ -88,14 +88,19 @@ export class AdaptiveGrid extends preact.Component {
     if (child.attributes.minHeight !== 'content')
       return child
     ;
-    if (typeof child.attributes.content !== 'function')
-      return child
-    ;
     if (this.needsResizing === undefined) {
       this.needsResizing = true;
       this.visible = false;
     }
     var
+      nextChild = child.children[0]
+    ,
+      NextChildComponent = nextChild.nodeName
+    ,
+      nextChildAttributes = nextChild.attributes
+    ,
+      nextChildChildren = nextChild.children
+    ,
       containerHeight = this.state.contentHeight[i] + this.state.padding[i]
     ,
       minHeight = (containerHeight || this.props.baseHeight)
@@ -111,29 +116,6 @@ export class AdaptiveGrid extends preact.Component {
       expandableContainerRef = function(element) {
         refs.expandableContainer = element
       }
-    ,
-      content = child.attributes.content(
-        EmptyComponent
-      )
-    ,
-      contentChildren = content.children
-    ,
-      container = (
-        <ContentContainer
-          expandableContainerRef={expandableContainerRef}
-          contentGap={fullHeight - minHeight}
-          verticalAlign={child.attributes.verticalAlign}
-          onContentResize={this.onContentResize(i, refs)}
-        >
-          { contentChildren }
-        </ContentContainer>
-      )
-    ,
-      finalContainer = typeof child.attributes.container === 'function' ? (
-        child.attributes.container(container)
-      ) : (
-        container
-      )
     ;
     return (
       <AdaptiveGridItem
@@ -141,7 +123,16 @@ export class AdaptiveGrid extends preact.Component {
         minHeight={minHeight}
       >
         <div ref={containerRef}>
-          { finalContainer }
+          <NextChildComponent {...nextChildAttributes}>
+            <ContentContainer
+              expandableContainerRef={expandableContainerRef}
+              contentGap={fullHeight - minHeight}
+              verticalAlign={child.attributes.verticalAlign}
+              onContentResize={this.onContentResize(i, refs)}
+            >
+              {nextChildChildren}
+            </ContentContainer>
+          </NextChildComponent>
         </div>
       </AdaptiveGridItem>
     )

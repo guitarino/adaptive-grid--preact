@@ -120,12 +120,15 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
       if (child.nodeName !== _adaptiveGrid.AdaptiveGridItem) return child;
       if (!child.attributes) return child;
       if (child.attributes.minHeight !== 'content') return child;
-      if (typeof child.attributes.content !== 'function') return child;
       if (this.needsResizing === undefined) {
         this.needsResizing = true;
         this.visible = false;
       }
-      var containerHeight = this.state.contentHeight[i] + this.state.padding[i],
+      var nextChild = child.children[0],
+          NextChildComponent = nextChild.nodeName,
+          nextChildAttributes = nextChild.attributes,
+          nextChildChildren = nextChild.children,
+          containerHeight = this.state.contentHeight[i] + this.state.padding[i],
           minHeight = containerHeight || this.props.baseHeight,
           fullHeight = Math.ceil(minHeight / this.props.baseHeight) * this.props.baseHeight,
           refs = {},
@@ -134,20 +137,7 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
       },
           expandableContainerRef = function expandableContainerRef(element) {
         refs.expandableContainer = element;
-      },
-          content = child.attributes.content(EmptyComponent),
-          contentChildren = content.children,
-          container = _preact2.default.h(
-        ContentContainer,
-        {
-          expandableContainerRef: expandableContainerRef,
-          contentGap: fullHeight - minHeight,
-          verticalAlign: child.attributes.verticalAlign,
-          onContentResize: this.onContentResize(i, refs)
-        },
-        contentChildren
-      ),
-          finalContainer = typeof child.attributes.container === 'function' ? child.attributes.container(container) : container;
+      };
       return _preact2.default.h(
         _adaptiveGrid.AdaptiveGridItem,
         _extends({}, child.attributes, {
@@ -156,7 +146,20 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
         _preact2.default.h(
           'div',
           { ref: containerRef },
-          finalContainer
+          _preact2.default.h(
+            NextChildComponent,
+            nextChildAttributes,
+            _preact2.default.h(
+              ContentContainer,
+              {
+                expandableContainerRef: expandableContainerRef,
+                contentGap: fullHeight - minHeight,
+                verticalAlign: child.attributes.verticalAlign,
+                onContentResize: this.onContentResize(i, refs)
+              },
+              nextChildChildren
+            )
+          )
         )
       );
     }
