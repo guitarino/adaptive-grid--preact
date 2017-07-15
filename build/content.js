@@ -1848,7 +1848,7 @@ var App = function (_preact$Component) {
           _preact2.default.h(
             Card,
             null,
-            Array(Math.ceil(50 * Math.random() + 1)).join("lorem ip sum ")
+            Array(Math.ceil(50 * Math.random() + 1)).join("lore m ip sum ")
           )
         );
       });
