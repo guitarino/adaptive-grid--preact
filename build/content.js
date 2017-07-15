@@ -1820,6 +1820,38 @@ var App = function (_preact$Component) {
   }
 
   _createClass(App, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      var w = 150;
+      var h = 150;
+      this.state = Array.from(Array(50)).map(function (u, i) {
+        return Math.random() > 0.4 ? _preact2.default.h(
+          _adaptiveContentGrid.AdaptiveGridItem,
+          {
+            minWidth: Math.random() * 3 * w,
+            minHeight: Math.random() * 3 * h
+          },
+          _preact2.default.h(
+            Card,
+            null,
+            i
+          )
+        ) : _preact2.default.h(
+          _adaptiveContentGrid.AdaptiveGridItem,
+          {
+            minWidth: (Math.random() * 2 + 1) * w,
+            minHeight: 'content',
+            verticalAlign: 'middle'
+          },
+          _preact2.default.h(
+            Card,
+            null,
+            "lorem ip sum ".repeat(50 * Math.random() + 1)
+          )
+        );
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var w = 150;
@@ -1838,193 +1870,8 @@ var App = function (_preact$Component) {
         ),
         _preact2.default.h(
           _adaptiveContentGrid.AdaptiveGrid,
-          { baseWidth: w, baseHeight: h, maxColumns: 8 },
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            null,
-            _preact2.default.h(
-              Card,
-              null,
-              'One'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            null,
-            _preact2.default.h(
-              Card,
-              null,
-              'Two'
-            )
-          ),
-          _preact2.default.h(_adaptiveContentGrid.AdaptiveGridItem, {
-            minWidth: 2 * w,
-            minHeight: 'content',
-            verticalAlign: 'middle',
-            container: function container(Content) {
-              return _preact2.default.h(
-                Card,
-                null,
-                Content
-              );
-            },
-            content: function content(ContentContainer) {
-              return _preact2.default.h(
-                ContentContainer,
-                null,
-                _preact2.default.h(
-                  'div',
-                  null,
-                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel odio, fugit quia possimus dolor laboriosam soluta molestiae dolores reprehenderit nam. Iure adipisci sed dolore dolores perspiciatis maiores quod rem a!'
-                ),
-                _preact2.default.h(
-                  'div',
-                  null,
-                  'Maiores velit inventore, quis obcaecati recusandae dolores fuga quae modi ab optio, molestiae, reiciendis officiis reprehenderit iure eum sint veritatis atque sapiente. Doloribus perspiciatis ipsa assumenda odio quasi vel, aliquid.'
-                ),
-                _preact2.default.h(
-                  'div',
-                  null,
-                  'Voluptatem id corporis aliquam, in omnis? Culpa voluptatum impedit, magni inventore praesentium molestiae. Accusamus quidem cupiditate, sint voluptatibus mollitia rerum cum a esse. Nobis cum, soluta sint. Ducimus, doloremque quidem!'
-                )
-              );
-            }
-          }),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            { minWidth: 2 * w },
-            _preact2.default.h(
-              Card,
-              null,
-              'Four'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            { minWidth: 2 * w, minHeight: 2 * h },
-            _preact2.default.h(
-              Card,
-              null,
-              'Five'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            { minWidth: 2 * w },
-            _preact2.default.h(
-              Card,
-              null,
-              'Six'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            null,
-            _preact2.default.h(
-              Card,
-              null,
-              'Seven'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            null,
-            _preact2.default.h(
-              Card,
-              null,
-              'Eight'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            { minWidth: 2 * w, minHeight: 2 * h },
-            _preact2.default.h(
-              Card,
-              null,
-              'Nine'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            { minHeight: 2 * h },
-            _preact2.default.h(
-              Card,
-              null,
-              'Ten'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            null,
-            _preact2.default.h(
-              Card,
-              null,
-              'Eleven'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            null,
-            _preact2.default.h(
-              Card,
-              null,
-              'Twelve'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            { minHeight: 2 * h },
-            _preact2.default.h(
-              Card,
-              null,
-              'Thirteen'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            { minWidth: 2 * w, minHeight: 2 * h },
-            _preact2.default.h(
-              Card,
-              null,
-              'Fourteen'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            { minWidth: 2 * w },
-            _preact2.default.h(
-              Card,
-              null,
-              'Fifteen'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            null,
-            _preact2.default.h(
-              Card,
-              null,
-              'Sixteen'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            null,
-            _preact2.default.h(
-              Card,
-              null,
-              'Seventeen'
-            )
-          ),
-          _preact2.default.h(
-            _adaptiveContentGrid.AdaptiveGridItem,
-            null,
-            _preact2.default.h(
-              Card,
-              null,
-              'Eighteen'
-            )
-          )
+          { baseWidth: w, baseHeight: h },
+          this.state
         )
       );
     }
@@ -2178,12 +2025,15 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
       if (child.nodeName !== _adaptiveGrid.AdaptiveGridItem) return child;
       if (!child.attributes) return child;
       if (child.attributes.minHeight !== 'content') return child;
-      if (typeof child.attributes.content !== 'function') return child;
       if (this.needsResizing === undefined) {
         this.needsResizing = true;
         this.visible = false;
       }
-      var containerHeight = this.state.contentHeight[i] + this.state.padding[i],
+      var nextChild = child.children[0],
+          NextChildComponent = nextChild.nodeName,
+          nextChildAttributes = nextChild.attributes,
+          nextChildChildren = nextChild.children,
+          containerHeight = this.state.contentHeight[i] + this.state.padding[i],
           minHeight = containerHeight || this.props.baseHeight,
           fullHeight = Math.ceil(minHeight / this.props.baseHeight) * this.props.baseHeight,
           refs = {},
@@ -2192,19 +2042,15 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
       },
           expandableContainerRef = function expandableContainerRef(element) {
         refs.expandableContainer = element;
-      },
-          content = child.attributes.content(EmptyComponent),
-          contentChildren = content.children,
-          container = _preact2.default.h(ContentContainer, {
+      };
+      return _preact2.default.h(_adaptiveGrid.AdaptiveGridItem, _extends({}, child.attributes, {
+        minHeight: minHeight
+      }), _preact2.default.h('div', { ref: containerRef }, _preact2.default.h(NextChildComponent, nextChildAttributes, _preact2.default.h(ContentContainer, {
         expandableContainerRef: expandableContainerRef,
         contentGap: fullHeight - minHeight,
         verticalAlign: child.attributes.verticalAlign,
         onContentResize: this.onContentResize(i, refs)
-      }, contentChildren),
-          finalContainer = typeof child.attributes.container === 'function' ? child.attributes.container(container) : container;
-      return _preact2.default.h(_adaptiveGrid.AdaptiveGridItem, _extends({}, child.attributes, {
-        minHeight: minHeight
-      }), _preact2.default.h('div', { ref: containerRef }, finalContainer));
+      }, nextChildChildren))));
     }
   }, {
     key: 'bindAll',
