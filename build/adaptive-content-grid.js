@@ -130,9 +130,9 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
         this.visible = false;
       }
       var nextChild = child.children[0],
-          NextChildComponent = nextChild.nodeName,
-          nextChildAttributes = nextChild.attributes,
-          nextChildChildren = nextChild.children,
+          NextChildComponent = nextChild ? nextChild.nodeName : undefined,
+          nextChildAttributes = nextChild ? nextChild.attributes : undefined,
+          nextChildChildren = nextChild ? nextChild.children : undefined,
           containerHeight = this.state.contentHeight[i] + this.state.padding[i],
           minHeight = containerHeight || this.props.baseHeight,
           fullHeight = Math.ceil(minHeight / this.props.baseHeight) * this.props.baseHeight,
@@ -144,12 +144,11 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
         refs.expandableContainer = element;
       };
       // Edge case for when there's no container for the content provided
-      if (typeof nextChild === 'string') {
-        nextChildChildren = nextChild;
+      if (typeof nextChild === 'string' || child.children.length !== 1) {
         nextChild = _preact2.default.h(
           'div',
           null,
-          nextChildChildren
+          child.children
         );
         NextChildComponent = nextChild.nodeName;
         nextChildAttributes = nextChild.attributes;

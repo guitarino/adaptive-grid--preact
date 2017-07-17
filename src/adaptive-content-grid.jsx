@@ -96,11 +96,11 @@ export class AdaptiveGrid extends preact.Component {
     var
       nextChild = child.children[0]
     ,
-      NextChildComponent = nextChild.nodeName
+      NextChildComponent = nextChild ? nextChild.nodeName : undefined
     ,
-      nextChildAttributes = nextChild.attributes
+      nextChildAttributes = nextChild ? nextChild.attributes : undefined
     ,
-      nextChildChildren = nextChild.children
+      nextChildChildren = nextChild ? nextChild.children : undefined
     ,
       containerHeight = this.state.contentHeight[i] + this.state.padding[i]
     ,
@@ -119,9 +119,8 @@ export class AdaptiveGrid extends preact.Component {
       }
     ;
     // Edge case for when there's no container for the content provided
-    if (typeof nextChild === 'string') {
-      nextChildChildren = nextChild;
-      nextChild = <div>{ nextChildChildren }</div>;
+    if (typeof nextChild === 'string' || child.children.length !== 1) {
+      nextChild = <div>{ child.children }</div>;
       NextChildComponent = nextChild.nodeName;
       nextChildAttributes = nextChild.attributes;
       nextChildChildren = nextChild.children;
