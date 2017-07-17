@@ -34,14 +34,18 @@ import { AdaptiveGrid, AdaptiveGridItem } from 'adaptive-grid--preact';
 Use:
 
 ```javascript
-  <AdaptiveGrid baseWidth={150} baseHeight={100} maxColumns={8}>
-    <AdaptiveGridItem minWidth={160}>
-      First grid item. Min height is not provided: will default to 100.
-    </AdaptiveGridItem>
-    <AdaptiveGridItem minHeight={120}>
-      Second grid item. Min width is not provided: will default to 150.
-    </AdaptiveGridItem>
-  </AdaptiveGrid>
+  render() {
+    return (
+      <AdaptiveGrid baseWidth={150} baseHeight={100} maxColumns={8}>
+        <AdaptiveGridItem minWidth={160}>
+          First grid item. Min height is not provided: will default to 100.
+        </AdaptiveGridItem>
+        <AdaptiveGridItem minHeight={120}>
+          Second grid item. Min width is not provided: will default to 150.
+        </AdaptiveGridItem>
+      </AdaptiveGrid>
+    )
+  }
 ```
 
 [Here's an example of usage](https://github.com/guitarino/adaptive-grid--preact/blob/master/demo/src/App.jsx) that produces the result shown in the Gif above. [Here's a demo link](https://guitarino.github.io/adaptive-grid--preact/) to where you can play with different screen sizes.
@@ -57,22 +61,26 @@ import { AdaptiveGrid, AdaptiveGridItem } from 'adaptive-grid--preact/build/adap
 And used like so:
 
 ```javascript
-  <AdaptiveGrid baseWidth={40} baseHeight={40}>
-    <AdaptiveGridItem minHeight='content' verticalAlign='middle'>
-      <div class='some-container'>
-        <div class='actual-content'>
-          First grid item. Let's have some more content here.
-        </div>
-      </div>
-    </AdaptiveGridItem>
-    <AdaptiveGridItem minHeight='content' verticalAlign='middle'>
-      <div class='some-container'>
-        <div class='actual-content'>
-          Second grid item. Let's have some more content here.
-        </div>
-      </div>
-    </AdaptiveGridItem>
-  </AdaptiveGrid>
+  render() {
+    return (
+      <AdaptiveGrid baseWidth={40} baseHeight={40}>
+        <AdaptiveGridItem minHeight='content' verticalAlign='middle'>
+          <div class='some-container'>
+            <div class='actual-content'>
+              First grid item. Let's have some more content here.
+            </div>
+          </div>
+        </AdaptiveGridItem>
+        <AdaptiveGridItem minHeight='content' verticalAlign='middle'>
+          <div class='some-container'>
+            <div class='actual-content'>
+              Second grid item. Let's have some more content here.
+            </div>
+          </div>
+        </AdaptiveGridItem>
+      </AdaptiveGrid>
+    )
+  }
 ```
 
 Now, the difference between the simpler grid and this *content* grid is that each item can optionally provide `minHeight='content'` attribute. Another crucial detail is that, the first provided child of your *content* grid item will be considered a **container** (i.e. more than just the content). Based on the size of the actual content (i.e. children of the **container**), **container's** content will be expanded (by adding extra padding-top and padding-bottom) to occupy the entire grid item's height. `<div class='some-container'>` can be replaced with anything you want, for example, `<SomeContainerElement>`: the whole point is that whatever children it originally had, will now be wrapped into another container that will have extra padding-top and padding-bottom. How much of padding is added to the top and bottom will be determined by `verticalAlign` attribute that you can provide. Its valid values are `top` (default), `middle` and `bottom`.
