@@ -2011,11 +2011,16 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
   _createClass(AdaptiveGrid, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var newChildren = this.props.children.map(this.mapChildren),
           style = this.visible ? {} : {
         visibility: 'hidden'
       };
       return _preact2.default.h('div', { style: style }, _preact2.default.h(_adaptiveGrid.AdaptiveGrid, {
+        ref: function ref(adaptiveGrid) {
+          return _this2.adaptiveGridRef = adaptiveGrid;
+        },
         baseWidth: this.props.baseWidth,
         baseHeight: this.props.baseHeight,
         maxColumns: this.props.maxColumns
@@ -2034,9 +2039,9 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
         this.visible = false;
       }
       var nextChild = child.children[0],
-          NextChildComponent = nextChild.nodeName,
-          nextChildAttributes = nextChild.attributes,
-          nextChildChildren = nextChild.children,
+          NextChildComponent = nextChild ? nextChild.nodeName : undefined,
+          nextChildAttributes = nextChild ? nextChild.attributes : undefined,
+          nextChildChildren = nextChild ? nextChild.children : undefined,
           containerHeight = this.state.contentHeight[i] + this.state.padding[i],
           minHeight = containerHeight || this.props.baseHeight,
           fullHeight = Math.ceil(minHeight / this.props.baseHeight) * this.props.baseHeight,
@@ -2047,6 +2052,13 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
           expandableContainerRef = function expandableContainerRef(element) {
         refs.expandableContainer = element;
       };
+      // Edge case for when there's no container for the content provided
+      if (typeof nextChild === 'string' || child.children.length !== 1) {
+        nextChild = _preact2.default.h('div', null, child.children);
+        NextChildComponent = nextChild.nodeName;
+        nextChildAttributes = nextChild.attributes;
+        nextChildChildren = nextChild.children;
+      }
       return _preact2.default.h(_adaptiveGrid.AdaptiveGridItem, _extends({}, child.attributes, {
         minHeight: minHeight
       }), _preact2.default.h('div', { ref: containerRef }, _preact2.default.h(NextChildComponent, nextChildAttributes, _preact2.default.h(ContentContainer, {
@@ -2066,12 +2078,6 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.bindAll();
-      this.visible = true;
-      this.state = { contentHeight: [], padding: [] };
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps() {
       this.visible = true;
       this.state = { contentHeight: [], padding: [] };
     }
@@ -2109,7 +2115,7 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
             padding = self.state.padding.slice();
         contentHeight[i] = h;
         // at initial render, the padding will be container - content
-        if (!padding[i]) {
+        if (!(i in padding)) {
           padding[i] = refs.container.clientHeight - h;
         }
         // at all further renders, the padding will be container - expanded content
