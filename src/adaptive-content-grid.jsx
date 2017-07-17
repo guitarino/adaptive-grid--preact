@@ -118,6 +118,14 @@ export class AdaptiveGrid extends preact.Component {
         refs.expandableContainer = element
       }
     ;
+    // Edge case for when there's no container for the content provided
+    if (typeof nextChild === 'string') {
+      nextChildChildren = nextChild;
+      nextChild = <div>{ nextChildChildren }</div>;
+      NextChildComponent = nextChild.nodeName;
+      nextChildAttributes = nextChild.attributes;
+      nextChildChildren = nextChild.children;
+    }
     return (
       <AdaptiveGridItem
         {...child.attributes}
@@ -180,7 +188,7 @@ export class AdaptiveGrid extends preact.Component {
       ;
       contentHeight[i] = h;
       // at initial render, the padding will be container - content
-      if (!padding[i]) {
+      if (!(i in padding)) {
         padding[i] = refs.container.clientHeight - h;
       }
       // at all further renders, the padding will be container - expanded content

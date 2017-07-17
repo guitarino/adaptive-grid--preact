@@ -143,6 +143,18 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
           expandableContainerRef = function expandableContainerRef(element) {
         refs.expandableContainer = element;
       };
+      // Edge case for when there's no container for the content provided
+      if (typeof nextChild === 'string') {
+        nextChildChildren = nextChild;
+        nextChild = _preact2.default.h(
+          'div',
+          null,
+          nextChildChildren
+        );
+        NextChildComponent = nextChild.nodeName;
+        nextChildAttributes = nextChild.attributes;
+        nextChildChildren = nextChild.children;
+      }
       return _preact2.default.h(
         _adaptiveGrid.AdaptiveGridItem,
         _extends({}, child.attributes, {
@@ -215,7 +227,7 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
             padding = self.state.padding.slice();
         contentHeight[i] = h;
         // at initial render, the padding will be container - content
-        if (!padding[i]) {
+        if (!(i in padding)) {
           padding[i] = refs.container.clientHeight - h;
         }
         // at all further renders, the padding will be container - expanded content
