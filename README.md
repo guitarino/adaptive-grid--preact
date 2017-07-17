@@ -93,4 +93,4 @@ The idea is quite simple. You provide base width and base height. This will dete
 
 ## License
 
-[MIT](https://github.com/guitarino/resize-sensor--preact/blob/master/LICENSE)
+[MIT](https://github.com/guitarino/adaptive-grid--preact/blob/master/LICENSE)
