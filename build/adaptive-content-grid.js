@@ -94,6 +94,8 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
   _createClass(AdaptiveGrid, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var newChildren = this.props.children.map(this.mapChildren),
           style = this.visible ? {} : {
         visibility: 'hidden'
@@ -104,6 +106,9 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
         _preact2.default.h(
           _adaptiveGrid.AdaptiveGrid,
           {
+            ref: function ref(adaptiveGrid) {
+              return _this2.adaptiveGridRef = adaptiveGrid;
+            },
             baseWidth: this.props.baseWidth,
             baseHeight: this.props.baseHeight,
             maxColumns: this.props.maxColumns
@@ -173,12 +178,6 @@ var AdaptiveGrid = exports.AdaptiveGrid = function (_preact$Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.bindAll();
-      this.visible = true;
-      this.state = { contentHeight: [], padding: [] };
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps() {
       this.visible = true;
       this.state = { contentHeight: [], padding: [] };
     }

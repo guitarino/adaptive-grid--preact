@@ -62,6 +62,7 @@ export class AdaptiveGrid extends preact.Component {
     return (
       <div style={style}>
         <DefaultAdaptiveGrid
+          ref={(adaptiveGrid) => this.adaptiveGridRef = adaptiveGrid}
           baseWidth={this.props.baseWidth}
           baseHeight={this.props.baseHeight}
           maxColumns={this.props.maxColumns}
@@ -145,11 +146,6 @@ export class AdaptiveGrid extends preact.Component {
 
   componentWillMount() {
     this.bindAll();
-    this.visible = true;
-    this.state = {contentHeight: [], padding: []};
-  }
-
-  componentWillReceiveProps() {
     this.visible = true;
     this.state = {contentHeight: [], padding: []};
   }
