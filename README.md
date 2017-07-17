@@ -46,9 +46,9 @@ Use:
 
 [Here's an example of usage](https://github.com/guitarino/adaptive-grid--preact/blob/master/demo/src/App.jsx) that produces the result shown in the Gif above. [Here's a demo link](https://guitarino.github.io/adaptive-grid--preact/) to where you can play with different screen sizes.
 
-## Advanced use-case: min height to match the content size
+## Advanced use-case: min height to match the content height
 
-What if you want your grid item's height match its content height? There is another component provided that composes original `adaptive-grid`, imported as follows:
+What if you want your grid item's height match its content height? There is another component in the package that composes the original `adaptive-grid`, imported as follows:
 
 ```javascript
 import { AdaptiveGrid, AdaptiveGridItem } from 'adaptive-grid--preact/build/adaptive-content-grid';
