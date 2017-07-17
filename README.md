@@ -48,7 +48,7 @@ Use:
 
 ## Advanced use-case: min height to match the content height
 
-What if you want your grid item's height match its content height? There is another component in the package that composes the original `adaptive-grid`, imported as follows:
+What if you want your grid item's height match its content height? There is another component in the package that composes the original `AdaptiveGrid`, imported as follows:
 
 ```javascript
 import { AdaptiveGrid, AdaptiveGridItem } from 'adaptive-grid--preact/build/adaptive-content-grid';
